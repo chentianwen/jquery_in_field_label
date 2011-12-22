@@ -1,4 +1,5 @@
 beforeEach ->
-  this.addMatchers toBeDummy: (expected) ->
-    this.actual == expected
-    
+  this.addMatchers {
+    toBeDummy: (expected) ->
+        this.actual == expected
+  }
