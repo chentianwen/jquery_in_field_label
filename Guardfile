@@ -4,3 +4,9 @@
 guard 'coffeescript', :input => 'src', :output => 'src'
 
 guard 'coffeescript', :input => 'spec', :output => 'spec'
+
+guard 'coffeescript', :input => 'examples', :output => 'examples'
+
+guard 'haml' do
+  watch /^.+\.html\.haml/
+end
