@@ -5,7 +5,7 @@
 (function() {
 
   jQuery(function($) {
-    var $_find_label_for, $_is_blank, append_input_after_label, find_options_for, is_blank, reposition_label_to_front_of_input;
+    var $_find_label_for, $_is_blank, append_input_after_label, find_self_options_for, is_blank, reposition_label_to_front_of_input;
     $.in_field_label = {
       default_options: {
         align: 'left',
@@ -20,15 +20,12 @@
     is_blank = function(obj) {
       return !obj || obj === '';
     };
-    find_options_for = function($input) {
+    find_self_options_for = function($input) {
       var opts;
       opts = {};
-      $.each(['align', 'padding', 'opacity', 'animate_duration'], function(name) {
-        var opt_value;
-        opt_value = $input.data(name);
-        if (!is_blank(opt_value)) return opts[name] = opt_value;
+      $.each(['align', 'padding', 'opacity', 'animate_duration'], function(i, name) {
+        return opts[name] = $input.data(name);
       });
-      debugger;
       return opts;
     };
     append_input_after_label = function($label, $input) {
@@ -55,15 +52,8 @@
       });
       if (opts.align === 'left') {
         x = $input.offset().left + parseInt($input.css('padding-left')) + opts.padding;
-        $label.css({
-          'left': "" + x + "px"
-        });
-      }
-      if (opts.align === 'right') {
-        x = $input.offset().right - parseInt($input.css('padding-right')) - opts.padding;
-        $label.css({
-          'right': "" + x + "px"
-        });
+      } else if (opts.align === 'right') {
+        x = $input.offset().left + $input.outerWidth() - $label.outerWidth() - parseInt($input.css('padding-right')) - opts.padding;
       }
       y = $input.offset().top + ($input.outerHeight() - $label.outerHeight()) / 2;
       return $label.css({
@@ -78,23 +68,23 @@
         return "[type=" + v + "]";
       }).join(',');
       return this.filter(valid_selectors).each(function() {
-        var $label, $this, self_opts, toggle_label;
+        var $label, $this, options, toggle_label;
         $this = $(this);
         $label = $_find_label_for($this);
         if ($_is_blank($label)) return;
-        self_opts = $.extend($.in_field_label.default_options, find_options_for($this), opts);
+        options = $.extend({}, $.in_field_label.default_options, find_self_options_for($this), opts);
         reposition_label_to_front_of_input($label.css({
           'opacity': 0
-        }), $this, self_opts);
+        }), $this, options);
         toggle_label = function(e) {
           if ($this.val().length > 0 || ($this.val().length === 0 && e && e.keyCode > 31)) {
             return $label.animate({
               'opacity': 0
-            }, self_opts.animate_duration);
+            }, options.animate_duration);
           } else {
             return $label.animate({
-              'opacity': self_opts.opacity
-            }, self_opts.animate_duration);
+              'opacity': options.opacity
+            }, options.animate_duration);
           }
         };
         $this.bind('keyup.in_field_label', toggle_label);
