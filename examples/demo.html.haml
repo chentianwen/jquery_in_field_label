@@ -1,0 +1,20 @@
+%html
+  %head
+    %title Demo
+    %script{type: 'text/javascript', src: '../lib/jquery.min.js'}
+    %script{type: 'text/javascript', src: '../src/jquery.in_field_label.js'}
+    %script{type: 'text/javascript', src: 'demo.js'}
+  %body
+    %form
+      %div
+        %label{for: 'input1'} Label1
+        %input{id: 'input1', type: 'text'}
+      %div
+        %label
+          Label2
+          %input{type: 'text', style: 'line-height: 28px'}
+      %div
+        %label
+          Label3
+          %input{type: 'text', style: 'line-height: 28px'}
+        

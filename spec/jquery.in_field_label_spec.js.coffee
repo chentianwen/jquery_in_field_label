@@ -9,6 +9,7 @@ jQuery ($) ->
     $_find_label_for = ($input) ->
       $parent_label = $input.parents('label:first').data 'is_parent', true
       return $parent_label unless $_is_blank $parent_label # input field is inside a label
+      # TODO: move the input field out of the label
       id = $input.attr 'id'
       $("label[for=#{id}]").data 'is_parent', false unless is_blank id
     
