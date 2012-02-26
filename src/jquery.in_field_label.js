@@ -16,6 +16,10 @@
   jQuery(function($) {
     $.InFieldLabel = (function() {
 
+      InFieldLabel.name = 'jQuery in-field label';
+
+      InFieldLabel.version = 'v0.9';
+
       function InFieldLabel(input, global_options) {
         this.input = input;
         this.global_options = global_options;
