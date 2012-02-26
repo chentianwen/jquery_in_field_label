@@ -3,26 +3,36 @@
   %head
     %title Demo
     %link{type: 'text/css', rel: 'stylesheet', href: 'lib/bootstrap/css/bootstrap.min.css'}
+    %link{type: 'text/css', rel: 'stylesheet', href: 'lib/bootstrap/css/bootstrap-responsive.min.css'}
+    %link{type: 'text/css', rel: 'stylesheet', href: 'examples/demo.css'}
     %script{type: 'text/javascript', src: 'lib/jquery.min.js'}
     %script{type: 'text/javascript', src: 'src/jquery.in_field_label.js'}
     %script{type: 'text/javascript', src: 'examples/demo.js'}
   %body
-    %div.row
-      %h1.title
-      %form
-        %div.span4
-          %div
-            %h1 
-            %label{for: 'input1'} Label1
-            %input{id: 'input1', type: 'text'}
-        %div.span4
-          %div
-            %label
-              Label2
-              %input{:type => 'text', :style => 'line-height: 28px', :'data-align' => 'right', :'data-animate_duration' => 600}
-        %div.span4
-          %div
-            %label
-              Label3
-              %input{type: 'text', style: 'line-height: 28px'}
-        
+    %div.navbar.navbar-fixed-top
+      %div.navbar-inner
+        %div.container
+          %div.nav-collapse
+            %ul.nav
+              %li.active
+                %a Overview
+    %div.container
+      %div.page-header
+        %h1.title
+      %div.row
+        %form
+          %div.span4
+            %div
+              %h1
+              %label{for: 'input1'} Label1
+              %input{id: 'input1', type: 'text'}
+          %div.span4
+            %div
+              %label
+                Label2
+                %input{type: 'text', :'data-align' => 'right'}
+          %div.span4
+            %div
+              %label
+                Label3
+                %input{type: 'text'}

@@ -16,7 +16,7 @@
   jQuery(function($) {
     $.InFieldLabel = (function() {
 
-      InFieldLabel.name = 'jQuery in-field label';
+      InFieldLabel.plugin_name = 'jQuery in-field label';
 
       InFieldLabel.version = 'v0.9';
 

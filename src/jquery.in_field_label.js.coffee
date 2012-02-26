@@ -11,7 +11,7 @@
 ###
 jQuery ($) ->
   class $.InFieldLabel
-    @name: 'jQuery in-field label'
+    @plugin_name: 'jQuery in-field label'
     @version: 'v0.9'
     constructor: (@input, @global_options) ->
 

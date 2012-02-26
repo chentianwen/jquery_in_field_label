@@ -10,3 +10,5 @@ guard 'coffeescript', :input => 'examples', :output => 'examples'
 guard 'haml' do
   watch /^.+\.html\.haml/
 end
+
+guard 'compass'
