@@ -27,7 +27,7 @@
 
       InFieldLabel.default_options = {
         align: 'left',
-        padding: 4,
+        padding: 2,
         opacity: 0.4,
         opacity_min: 0,
         opacity_max: 0.7,
@@ -117,14 +117,18 @@
           }
         });
         $input.bind('focus.in_field_label', function(e) {
-          return $label.css({
-            'opacity': options.opacity
-          });
+          if ($input.val().length === 0) {
+            return $label.css({
+              'opacity': options.opacity
+            });
+          }
         });
         $input.bind('blur.in_field_label', function(e) {
-          return $label.css({
-            'opacity': options.opacity_max
-          });
+          if ($input.val().length === 0) {
+            return $label.css({
+              'opacity': options.opacity_max
+            });
+          }
         });
         if ($input.val().length > 0) {
           $label.css({

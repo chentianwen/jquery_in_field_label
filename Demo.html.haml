@@ -4,6 +4,7 @@
     %title Demo
     %link{type: 'text/css', rel: 'stylesheet', href: 'lib/bootstrap/css/bootstrap.min.css'}
     %link{type: 'text/css', rel: 'stylesheet', href: 'lib/bootstrap/css/bootstrap-responsive.min.css'}
+    %link{type: 'text/css', rel: 'stylesheet', href: 'lib/bootstrap/css/prettify.css'}
     %link{type: 'text/css', rel: 'stylesheet', href: 'examples/demo.css'}
     %script{type: 'text/javascript', src: 'lib/jquery.min.js'}
     %script{type: 'text/javascript', src: 'src/jquery.in_field_label.js'}
@@ -19,13 +20,14 @@
     %div.container
       %div.page-header
         %h1.title
+      %h2 Examples
       %div.row
         %form
           %div.span4
             %div
               %h1
-              %label{for: 'input1'} Label1
-              %input{id: 'input1', type: 'text'}
+              %label{for: 'email_address'} Email
+              %input{id: 'email_address', type: 'text'}
           %div.span4
             %div
               %label
@@ -36,3 +38,41 @@
               %label
                 Label3
                 %input{type: 'text'}
+      %h2 Requirement
+      %pre.prettyprint.linenums<
+        %ol.linenums><
+          %li.L0><
+            %span.tag><
+              &= "<script type='text/javascript' src='path_to/jquery.min.js' />"
+      %h2 Installation
+      %pre.prettyprint.linenums<
+        %ol.linenums><
+          %li.L0><
+            %span.tag><
+              &= "<script type='text/javascript' src='path_to/jquery.in_field_label.js' />"
+      %h2 Usage
+      %pre.prettyprint.linenums<
+        %ol.linenums><
+          %li.L0><
+            %span.tag><
+              &= "<input type='text' class='in_field_label' />"
+      %h4 OR
+      %pre.prettyprint.linenums<
+        %ol.linenums><
+          %li.L0><
+            %span.tag><
+              &= "<script type='text/javascript'>"
+          %li.L1><
+            %span.tag><
+              &= "  jQuery(function($){"
+          %li.L2><
+            %span.tag><
+              &= "    $('input').in_field_label()"
+          %li.L3><
+            %span.tag><
+              &= "  })"
+          %li.L4><
+            %span.tag><
+              &= "</script>"
+        
+      %h2 Options

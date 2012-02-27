@@ -18,7 +18,7 @@ jQuery ($) ->
     ## constants
     @default_options:
       align: 'left'
-      padding: 4
+      padding: 2
       opacity: 0.4
       opacity_min: 0
       opacity_max: 0.7
@@ -88,9 +88,9 @@ jQuery ($) ->
           $label.css 'opacity': options.opacity
       
       $input.bind 'focus.in_field_label', (e) ->
-        $label.css 'opacity': options.opacity
+        $label.css 'opacity': options.opacity if $input.val().length == 0
       $input.bind 'blur.in_field_label',  (e) ->
-        $label.css 'opacity': options.opacity_max
+        $label.css 'opacity': options.opacity_max if $input.val().length == 0
       
       # init
       if $input.val().length > 0
