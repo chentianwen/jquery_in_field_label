@@ -19,6 +19,16 @@
               <li class='active'>
                 <a>Overview</a>
               </li>
+              <li>
+                <a href='https://github.com/chentianwen/jquery_in_field_label/issues'>
+                  Issues
+                </a>
+              </li>
+              <li>
+                <a href='https://github.com/chentianwen/jquery_in_field_label'>
+                  Fork me
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -28,30 +38,13 @@
       <div class='page-header'>
         <h1 class='title'></h1>
       </div>
-      <h2>Examples</h2>
+      <h2>Example</h2>
       <div class='row'>
         <form>
           <div class='span4'>
             <div>
-              <h1></h1>
-              <label for='email_address'>Email</label>
-              <input id='email_address' type='text' />
-            </div>
-          </div>
-          <div class='span4'>
-            <div>
-              <label>
-                Label2
-                <input data-align='right' type='text' />
-              </label>
-            </div>
-          </div>
-          <div class='span4'>
-            <div>
-              <label>
-                Label3
-                <input type='text' />
-              </label>
+              <label for='email_address'>Email address</label>
+              <input class='in_field_label' id='email_address' type='text' />
             </div>
           </div>
         </form>
@@ -65,6 +58,86 @@
       <h4>OR</h4>
       <pre class='prettyprint linenums'><ol class='linenums'><li class='L0'><span class='tag'>&lt;script type='text/javascript'&gt;</span></li><li class='L1'><span class='tag'>  jQuery(function($){</span></li><li class='L2'><span class='tag'>    $('input').in_field_label()</span></li><li class='L3'><span class='tag'>  })</span></li><li class='L4'><span class='tag'>&lt;/script&gt;</span></li></ol></pre>
       <h2>Options</h2>
+      <table class='table table-bordered table-striped'>
+        <thead>
+          <tr>
+            <td>Key</td>
+            <td>Description</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <code>align</code>
+            </td>
+            <td>
+              Values:
+              <code>left</code>
+              <code>right</code>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>padding</code>
+            </td>
+            <td>
+              Padding will be used with align to position the label.
+              <strong>Number ONLY.</strong>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>opacity</code>
+            </td>
+            <td>
+              Opacity for the label when the input field is focused but has no value.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>opacity_min</code>
+            </td>
+            <td>
+              Min opacity for the label when the input field is focused but has no value.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>opacity_max</code>
+            </td>
+            <td>
+              Max opacity for the label when the input field is focused but has no value.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>tag_class</code>
+            </td>
+            <td>
+              For additional styling.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class='footer'>
+        <p>
+          Built with the following technologies:
+        </p>
+        <p>
+          <strong>Design:</strong>
+          <a href='http://twitter.github.com/bootstrap/'>bootstrap</a>
+          <strong>Script:</strong>
+          <a href='http://jashkenas.github.com/coffee-script/'>coffee-script</a>
+          <strong>Test:</strong>
+          <a href='http://pivotal.github.com/jasmine/'>jasmine</a>
+          <strong>Auto compile:</strong>
+          <a href='https://github.com/guard/guard/'>guard</a>
+          <strong>Others:</strong>
+          <a href='http://haml-lang.com/'>haml</a>
+          ,
+          <a href='http://compass-style.org/'>compass</a>
+        </p>
+      </div>
     </div>
   </body>
 </html>

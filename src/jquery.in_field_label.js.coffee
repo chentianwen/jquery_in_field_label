@@ -80,6 +80,9 @@ jQuery ($) ->
       options = $.extend {}, InFieldLabel.default_options, InFieldLabel.find_data_options_for($input), @global_options
       InFieldLabel.reposition_label_to_front_of_input $label, $input, options
 
+      $(window).bind "resize.in_field_label.#{$input.attr 'id'}", (e) ->
+        InFieldLabel.reposition_label_to_front_of_input $label, $input, options
+
       $input.bind 'keyup.in_field_label', (e) ->
         if $input.val().length > 0 || \ # have text
         ($input.val().length == 0 && e && e.keyCode > 31) # still typing
@@ -107,4 +110,4 @@ jQuery ($) ->
       new $.InFieldLabel(this, opts).setup()
       
   # auto setup for input elements that has in_field_label
-  $('input.in_field_label').in_field_label()
+  $(document.body).append("<script type='text/javascript'>jQuery(function($){ $('input.in_field_label').in_field_label() })</script>")

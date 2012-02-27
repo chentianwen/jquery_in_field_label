@@ -105,6 +105,9 @@
         $input.unbind('blur.in_field_label');
         options = $.extend({}, InFieldLabel.default_options, InFieldLabel.find_data_options_for($input), this.global_options);
         InFieldLabel.reposition_label_to_front_of_input($label, $input, options);
+        $(window).bind("resize.in_field_label." + ($input.attr('id')), function(e) {
+          return InFieldLabel.reposition_label_to_front_of_input($label, $input, options);
+        });
         $input.bind('keyup.in_field_label', function(e) {
           if ($input.val().length > 0 || ($input.val().length === 0 && e && e.keyCode > 31)) {
             return $label.css({
@@ -153,7 +156,7 @@
         return new $.InFieldLabel(this, opts).setup();
       });
     };
-    return $('input.in_field_label').in_field_label();
+    return $(document.body).append("<script type='text/javascript'>jQuery(function($){ $('input.in_field_label').in_field_label() })</script>");
   });
 
 }).call(this);

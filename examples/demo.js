@@ -1,11 +1,7 @@
 (function() {
 
   jQuery(function($) {
-    $('h1.title').text($.InFieldLabel.plugin_name + ' ' + $.InFieldLabel.version);
-    $('#input1').in_field_label({
-      align: 'right'
-    });
-    return $('input:not([id])').in_field_label();
+    return $('h1.title').text($.InFieldLabel.plugin_name + ' ' + $.InFieldLabel.version);
   });
 
 }).call(this);
