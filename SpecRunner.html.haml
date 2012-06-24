@@ -1,19 +1,22 @@
-!!!
+- # helpers
+- css = lambda do |css_url|
+  %link{ type: 'text/css', rel: 'stylesheet', href: css_url }
+- js = lambda do |js_url|
+  %script{ type: 'text/javascript', src: js_url }
+!!! 5
 %html
   %head
     %title Jasmine Spec Runner
-    %link{ href: 'lib/jasmine-1.1.0.rc1/jasmine_favicon.png', rel: 'shortcut icon', type: 'image/png' }
-    %link{ href: 'lib/jasmine-1.1.0/jasmine.css', rel: 'stylesheet', type: 'text/css' }
-    %script{ src: 'lib/jasmine-1.1.0/jasmine.js', type: 'text/javascript' }
-    %script{ src: 'lib/jasmine-1.1.0/jasmine-html.js', type: 'text/javascript' }
+    %link{ href: 'https://github.com/pivotal/jasmine/blob/master/images/jasmine_favicon.png?raw=true', rel: 'shortcut icon', type: 'image/png' }
+    - css.call 'vendor/jasmine/jasmine.css'
+    - js.call 'vendor/jasmine/jasmine.js'
+    - js.call 'vendor/jasmine/jasmine-html.js'
     
+    - js.call 'vendor/jquery/jquery.js'
     / include source files here...
-    %script{ src: 'lib/jquery.min.js', type: 'text/javascript' }
-    %script{ src: 'src/jquery.in_field_label.js', type: 'text/javascript' }
+    - js.call 'lib/jquery.in_field_label.js'
     
     / include spec files here...
-    %script{ src: 'spec/SpecHelper.js', type: 'text/javascript' }
-    %script{ src: 'spec/support/jasmine-jquery-1.3.1.js', type: 'text/javascript' }
-    %script{ src: 'spec/support/CustomMatchers.js', type: 'text/javascript' }
-    %script{ src: 'spec/javascripts/jquery.in_field_label_spec.js', type: 'text/javascript' }
+    - js.call 'vendor/jasmine-jquery/lib/jasmine-jquery.js'
+    - js.call 'spec/javascripts/jquery.in_field_label_spec.js'
   %body

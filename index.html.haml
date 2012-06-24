@@ -1,0 +1,329 @@
+- # helpers
+- css = lambda do |css_url|
+  %link{ type: 'text/css', rel: 'stylesheet', href: css_url }
+- js = lambda do |js_url|
+  %script{ type: 'text/javascript', src: js_url }
+- codes = lambda do |lines_of_code, lang = 'lang-html'|
+  %pre{ class: "prettyprint linenums #{ lang }" }
+    :preserve
+      #{ lines_of_code.gsub(/</, '&lt;').gsub(/>/, '&gt;') }
+!!! 5
+%html
+  %head
+    %title Demo
+    test 1
+    - css.call 'http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css'
+    - css.call 'http://twitter.github.com/bootstrap/assets/css/bootstrap.css'
+    - css.call 'http://twitter.github.com/bootstrap/assets/css/docs.css'
+    - css.call 'http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css'
+    - css.call 'examples/demo.css'
+    - js.call 'http://tian.im/javascripts/google_analytics.js'
+    - js.call 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'
+    - js.call 'http://twitter.github.com/bootstrap/assets/js/bootstrap-scrollspy.js'
+    - js.call 'http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js'
+    - js.call 'src/jquery.dropdown_list_chain.js'
+    - js.call 'examples/demo.js'
+    / TODO: add more info for SEO
+    %meta
+  %body{ 'data-spy' => 'scroll', 'data-target' => 'div.subnav', 'data-offset' => 70 }
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          .nav-collapse
+            %ul.nav
+              %li.active
+                %a Overview
+              %li
+                %a{ href: 'https://github.com/chentianwen/jquery_dropdown_list_chain/zipball/master' }
+                  Download ZIP
+              %li.divider-vertical
+              %li
+                %a{ href: 'https://github.com/chentianwen/jquery_dropdown_list_chain/issues', target: '_blank' } Issues &amp; Feedbacks
+              %li
+                %a{ href: 'https://github.com/chentianwen/jquery_dropdown_list_chain', target: '_blank' } Fork me
+    .container
+      %header.jumbotron.subhead#overview
+        .subnav.subnav-fixed
+          %ul.nav.nav-pills
+            %li
+              %a{ href: '#whatsnew' } What's New
+            %li
+              %a{ href: '#requirement' } Requirement
+            %li
+              %a{ href: '#installation' } Installation
+            %li
+              %a{ href: '#usage' } Usage
+            %li
+              %a{ href: '#options' } Options
+            %li
+              %a{ href: '#example-local' } Example - Local
+            %li
+              %a{ href: '#example-remote' } Example - Remote
+      .page-header
+        %h1.title
+      .row
+        .span3.column
+          %h3 About
+          %p Help you to reload the dropdown list options once target dropdown list is changed.
+          %h3 Jasmine Test
+          %p
+            %a{ href: 'SpecRunner.html', target: '_blank'} Click to open the test page.
+        .span9.column
+          #whatsnew.section
+            %h2
+              What's New
+              %small Not really
+          #requirement.section
+            %h2
+              Requirement
+              %small Latest version of jQuery
+            - codes.call "<script type='text/javascript' src='url_to/jquery.min.js' />"
+          #installation.section
+            %h2 Installation
+            - codes.call "<script type='text/javascript' src='url_to/jquery.dropdown_list_chain.js' />"
+          #usage.section
+            %h2 Usage
+            - codes.call "<script type='text/javascript'>\n  jQuery(function($) {\n    $(chainer_selector).chain( /* { chainee_selector | jQuery | Element } [ , options = {} ] */ );\n    $(chainee_selector).chainedTo( /* { chainer_selector | jQuery | Element } [ , options = {} ] */ );\n  });\n</script>"
+            .alert.alert-info
+              %strong NOTE:
+              the chainer doesn't need to be a dropdown list, it could be input field, checkbox, radiobox or even a textarea. Please see Local -> Option 2 -> Demo.
+            .alert.alert-info
+              %strong NOTE:
+              the chainee must be HTML Select element.
+          #options.section
+            %h2 Options
+            %h3 Precedence:
+            %ol
+              %li
+                %p Options passed in javascript.
+                %p
+                  e.g.
+                  %code
+                    :escaped
+                      $('selector').chain('selector', { include_blank: false });
+              %li
+                %p Options set in the HTML
+                %p
+                  e.g.
+                  %code
+                    :escaped
+                      <select data-include_blank='false' />
+              %li Default options
+
+            %table.table.table-bordered.table-striped
+              %thead
+                %tr
+                  %th{ width: '100px'} Name
+                  %th{ width: '50px'} Type
+                  %th{ width: '100px'} Default
+                  %th Description
+              %tbody
+                %tr
+                  %td include_blank
+                  %td object
+                  %td
+                    %div {
+                    %div &nbsp; &nbsp; text: ' - ',
+                    %div &nbsp; &nbsp; value: ''
+                    %div }
+                  %td
+                    %p Whether to include the blank option for dropdown list as the first item.
+                    %p
+                      You could disable this by setting it to
+                      %code false
+                %tr
+                  %td include_blank.text
+                  %td string
+                  %td ' - '
+                  %td
+                    %b Text
+                    for the blank option.
+                %tr
+                  %td include_blank.value
+                  %td string
+                  %td ''
+                  %td
+                    %b Value
+                    for the blank option.
+                %tr
+                  %td remember_last_value
+                  %td boolean
+                  %td true
+                  %td Whether to remember the last selected value
+                %tr
+                  %td ajax
+                  %td object
+                  %td false
+                  %td
+                    %p
+                      1. Options for jQuery AJAX call, see
+                      %a{ href: 'http://api.jquery.com/jQuery.ajax/', target: '_blank' } jQuery.ajax( settings )
+                    %p 2. or you coulf pass a function to return options for jQuery AJAX.
+                    %p
+                      %b param:
+                      %code $chainer
+                      ,
+                      %code $chainee
+                    %p
+                      %b return:
+                      %code object
+                    %p For example:
+                    - codes.call "function($chainer, $chainee) {\n return {};\n}", 'javascript'
+                %tr
+                  %td ajax_mapping
+                  %td object
+                  %td
+                    %div {
+                    %div &nbsp; &nbsp; text: ' - ',
+                    %div &nbsp; &nbsp; value: '',
+                    %div &nbsp; &nbsp; build_option: false
+                    %div }
+                  %td Options for setting up how to map each AJAX record and build the HTML Option element.
+                %tr
+                  %td ajax_mapping.filter
+                  %td function
+                  %td false
+                  %td
+                    %p Custom method to filter each AJAX record.
+                    %p
+                      %b param:
+                      %code record
+                      ,
+                      %code chainer_value
+                    %p
+                      %b return:
+                      %code boolean
+                    %p
+                      Example:
+                    - codes.call "function(record, chainer_value) {\n return chainer_value == record;\n}", 'javascript'
+                %tr
+                  %td ajax_mapping.text
+                  %td string
+                  %td 'text'
+                  %td
+                    Property name of each AJAX record which will be used as the
+                    %b text
+                %tr
+                  %td ajax_mapping.value
+                  %td string
+                  %td ''
+                  %td
+                    Property name of each AJAX record which will be used as the
+                    %b value
+                %tr
+                  %td ajax_mapping.build_option
+                  %td function
+                  %td false
+                  %td
+                    %p Custom method to map each AJAX record to build the HTML Option element.
+                    %p
+                      %b param:
+                      %code record
+                    %p
+                      %b return:
+                      %code option
+                      %small ( jQuery | Element )
+                    %p
+                      Example:
+                    - codes.call "function(record) {\n return $('<option />').text(record.text).attr('value', record.value)\n}", 'javascript'
+          #example-local.section
+            %h2 Example - Local
+            %h3 Option 1
+            %p No javascript is needed if you follow below markup.
+            - codes.call "<!-- Chainee -->\n<select id='...' data-target='\#{ parent_css_selector }' data-toggle='chain'>\n  <option value='...' data-chain='...'> ... </option>\n</select>"
+            %h3 Code Example
+            - codes.call "<!-- Chainer -->\n<select id='country'>\n  <option value='au'> Australia </option>\n  <option value='cn'> China </option>\n</select>\n\n<!-- Chainee -->\n<select id='city' data-target='#country' data-toggle='chain'>\n  <option value='syd' data-chain='au'> Sydney </option>\n  <option value='mel' data-chain='au'> Melbourne </option>\n  <option value='bj' data-chain='cn'> Bei Jing </option>\n  <option value='gz' data-chain='cn'> Guang Zhou </option>\n</select>"
+            %h3 Demo
+            .well
+              .span3
+                %label{ for: 'country' } Country
+                %select{ id: 'country', name: 'country' }
+                  %option
+                  %option{ value: 'au', selected: 'selected' } Australia
+                  %option{ value: 'cn' } China
+              .span3
+                %label{ for: 'city' } Major City
+                %select{ id: 'city', name: 'city', 'data-toggle' => 'chain', 'data-target' => '#country' }
+                  %option
+                  %option{ value: 'syd', 'data-chain' => 'au' } Sydney
+                  %option{ value: 'mel', 'data-chain' => 'au' } Melbourne
+                  %option{ value: 'bne', 'data-chain' => 'au' } Brisbane
+                  %option{ value: 'adl', selected: 'selected', 'data-chain' => 'au' } Adelaide
+                  %option{ value: 'bj', 'data-chain' => 'cn' } Bei Jing
+                  %option{ value: 'sh', 'data-chain' => 'cn' } Shang Hai
+                  %option{ value: 'gz', 'data-chain' => 'cn' } Guang Zhou
+              .span3
+                %label{ for: 'wildlife' } Wildlife
+                %select{ id: 'wildlife', name: 'wildlife', 'data-toggle' => 'chain', 'data-target' => '#country' }
+                  %option
+                  %option{ value: 'koala', 'data-chain' => 'au' } Koala
+                  %option{ value: 'kangaroo', 'data-chain' => 'au' } Kangaroo
+                  %option{ value: 'panda', 'data-chain' => 'cn' } Panda
+                  %option{ value: 'monkey', 'data-chain' => 'cn' } Snub-nosed Monkey
+              .clear
+            %h3 Option 2
+            %p Manual Javascript setup.
+            %h3 Code Example
+            - codes.call "<!-- Chainer -->\n<input id='species' />\n\n<!-- Chainee -->\n<select id='breed'>\n  <option value='' data-chain='dog'> Sydney </option>\n  <option value='mel' data-chain='dog'> Melbourne </option>\n  <option value='bj' data-chain='cat'> Bei Jing </option>\n  <option value='gz' data-chain='cat'> Guang Zhou </option>\n</select>\n\n<script type='text/javascript'>\n  jQuery(function($) {\n    $('#country').chain('#city');\n    // or $('#city').chainedTo('#country');\n  });\n</script>"
+            %h3 Demo
+            .well
+              .span3
+                %label{ for: 'species' } Species
+                %input{ id: 'species', name: 'species', value: 'cat' }
+                %small try to fill in 'dog' or 'cat'
+              .span3
+                %label{ for: 'breed' } Breed
+                %select{ id: 'breed', name: 'breed' }
+                  %option
+                  %option{ value: 'siberian_husky', 'data-chain' => 'dog' } Siberian Husky
+                  %option{ value: 'shetland_sheepdog', selected: 'selected', 'data-chain' => 'dog' } Shetland Sheepdog
+                  %option{ value: 'boxer', 'data-chain' => 'dog' } Boxer
+                  %option{ value: 'persian', 'data-chain' => 'cat' } Persian
+                  %option{ value: 'egyptian_mau', 'data-chain' => 'cat' } Egyptian Mau
+              .clear
+          #example-remote.section
+            %h2 Example - Remote
+            %p
+              See
+              %a{ href: 'http://api.jquery.com/jQuery.ajax/', target: '_blank' } jQuery.ajax( settings )
+              for more information about the jQuery AJAX call.
+            %h3 Code Example
+            - codes.call "<!-- Chainer -->\n<select id='gender' />\n  <option />\n  <option value='male'> Male </option>\n  <option value='female'> Female </option>\n  <option value='unknown'> Unknown </option>\n</select>\n\n<!-- Chainee -->\n<select id='person_name'></select>\n\n<script type='text/javascript'>\n  jQuery(function($) {\n    $('#gender').chain('#person_name', {\n      ajax: {\n        url: './examples/demo.json',\n        dataType: 'json'\n      },\n      ajax_mapping: {\n        filter: function(record, chainer_value) {\n          if (record.chain !== chainer_value) return true;\n        }\n      }\n    });\n  });\n</script>"
+            %h3 Demo
+            .well
+              .span3
+                %label{ for: 'gender' } Gender
+                %select{ id: 'gender', name: 'gender' }
+                  %option
+                  %option{ value: 'male' } Male
+                  %option{ value: 'female' } Female
+                  %option{ value: 'unknown' } Unknown
+              .span3
+                %label{ for: 'person_name' } Name for the Person
+                %select{ id: 'person_name', name: 'person_name' }
+              .clear
+      .footer
+        %p
+          Licensed under the
+          %a{ href: 'http://www.opensource.org/licenses/MIT' } MIT License
+        %p
+          Powered by the following technologies:
+        .row
+          .span3
+            %h4 Scripting:
+            %a{ href: 'http://jashkenas.github.com/coffee-script/', target: '_blank' } coffee-script
+          .span3
+            %h4 Test:
+            %a{ href: 'http://pivotal.github.com/jasmine/', target: '_blank' } jasmine
+          .span3
+            %h4 Design:
+            %a{ href: 'http://twitter.github.com/bootstrap/', target: '_blank' } bootstrap
+          .span3
+            %h4 Others:
+            %a{ href: 'https://github.com/guard/guard/', target: '_blank' } guard
+            ,
+            %a{ href: 'http://haml-lang.com/', target: '_blank' } haml
+            ,
+            %a{ href: 'http://compass-style.org/', target: '_blank' } compass
+            ,
+            %a{ href: 'http://code.google.com/p/google-code-prettify/', target: '_blank' } google-code-prettify

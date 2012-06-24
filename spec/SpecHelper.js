@@ -11,7 +11,9 @@
     };
     currentWindowOnload = window.onload;
     window.onload = function() {
-      if (currentWindowOnload) currentWindowOnload();
+      if (currentWindowOnload) {
+        currentWindowOnload();
+      }
       return execJasmine();
     };
     return execJasmine = function() {
