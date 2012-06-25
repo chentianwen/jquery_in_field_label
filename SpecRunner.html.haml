@@ -7,10 +7,10 @@
 %html
   %head
     %title Jasmine Spec Runner
-    %link{ href: 'https://github.com/pivotal/jasmine/blob/master/images/jasmine_favicon.png?raw=true', rel: 'shortcut icon', type: 'image/png' }
-    - css.call 'vendor/jasmine/jasmine.css'
-    - js.call 'vendor/jasmine/jasmine.js'
-    - js.call 'vendor/jasmine/jasmine-html.js'
+    %link{ href: 'vendor/jasmine/images/jasmine_favicon.png', rel: 'shortcut icon', type: 'image/png' }
+    - css.call 'vendor/jasmine/lib/jasmine-core/jasmine.css'
+    - js.call 'vendor/jasmine/lib/jasmine-core/jasmine.js'
+    - js.call 'vendor/jasmine/lib/jasmine-core/jasmine-html.js'
     
     - js.call 'vendor/jquery/jquery.js'
     / include source files here...
