@@ -12,11 +12,12 @@
     - js.call 'vendor/jasmine/lib/jasmine-core/jasmine.js'
     - js.call 'vendor/jasmine/lib/jasmine-core/jasmine-html.js'
     
-    - js.call 'vendor/jquery/jquery.js'
+    - js.call 'vendor/jquery-1.7.2.js'
+    - js.call 'vendor/jasmine-jquery/lib/jasmine-jquery.js'
     / include source files here...
     - js.call 'lib/jquery.in_field_label.js'
     
     / include spec files here...
-    - js.call 'vendor/jasmine-jquery/lib/jasmine-jquery.js'
     - js.call 'spec/javascripts/jquery.in_field_label_spec.js'
+    - js.call 'spec/SpecHelper.js'
   %body
