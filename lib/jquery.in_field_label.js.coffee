@@ -20,19 +20,17 @@ jQuery ($) ->
   # options
   $.in_field =
     defaults:
-      label_class:
-        show: 'show'
+      label_hide:
         hide: 'hide'
     version: '0.9.1'
     name: 'JQuery In-field Label'
-    # include HTML5 elements INPUT and TEXTAREA
     klass: 'in_field'
+    # support HTML5 elements INPUT and TEXTAREA
     support_types: 'input[type=text], input[type=password], input[type=color], input[type=date], input[type=datetime], input[type=datetime-local], input[type=email], input[type=month], input[type=number], input[type=range], input[type=search], input[type=tel], input[type=time], input[type=url], input[type=week], textarea'
     events:
       keyup:  'keyup.jquery_in_field_label'
       focus:  'focus.jquery_in_field_label'
       blur:   'blur.jquery_in_field_label'
-      resize: 'resize.jquery_in_field_label'
 
   class $.InField
     @init: ($input, options, $label) ->
@@ -75,16 +73,30 @@ jQuery ($) ->
     @mark_as_toggled: ($input) ->
       $input.attr('data-toggle', $.in_field.klass)
 
-    @handle_keyup: (input) ->
-    @show: (input) ->
-    @hide: (input) ->
+    @validate_event_target: ($target) ->
+      return true if $input.is("[data-toggle=#{ $.in_field.klass }]")
+
+    @has_value: ($input, e) ->
+      $input.val() != '' || $input.val() == '' && e && e.keyCode > 31
+
+    @render: (status) ->
+      switch status
+        when 'min'
+        when 'normal'
+        when 'max'
+      
+    @handle_keyup: ($input) ->
+
+    @handle_focue: ($input) ->
+
+    @handle_blur: ($input) ->
+      @render_normal if $input.val()
 
   $('body').on $.in_field.events.keyup, $.in_field.support_types, (e) ->
     $.InField.handle_keyup $(e.target)
 
   $('body').on $.in_field.events.focus, $.in_field.support_types, (e) ->
-    $.InField.handle_keyup $(e.target)
+    $.InField.handle_focus $(e.target)
 
   $('body').on $.in_field.events.blur, $.in_field.support_types, (e) ->
-    $.InField.handle_keyup $(e.target)
-
+    $.InField.handle_blur $(e.target)

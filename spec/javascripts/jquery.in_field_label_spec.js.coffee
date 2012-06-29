@@ -101,3 +101,21 @@ jQuery ($) ->
         $.InField.mark_as_toggled($input)
         expect($input.attr('data-toggle')).toEqual($.in_field.klass)
 
+    describe '::has_value', ->
+      it 'must return true if input has value', ->
+        $input = $ '<input type="text" value="something" />'
+        expect($.InField.has_value($input)).toBeTruthy()
+
+      it 'must return true if input has no value but user starts to type', ->
+        e = { keyCode: 32 }
+        $input = $ '<input type="text" />'
+        expect($.InField.has_value($input, e)).toBeTruthy()
+
+      it 'must return not true if input has no value and user is not typing', ->
+        e = { keyCode: 31 }
+        $input = $ '<input type="text" />'
+        expect($.InField.has_value($input, e)).not.toBeTruthy()
+        e = { }
+        expect($.InField.has_value($input, e)).not.toBeTruthy()
+        e = undefined
+        expect($.InField.has_value($input, e)).not.toBeTruthy()
