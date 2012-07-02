@@ -20,24 +20,46 @@
     };
     return describe('InField', function() {
       describe('::validate_input', function() {
-        it('must return undefined if the input element is not supported', function() {
-          expect($.InField.validate_input($('<article />'))).toBeUndefined();
-          return expect($.InField.validate_input($('<input type="unknown" />'))).toBeUndefined();
+        it('must throw exception if the input element is not jQuery object', function() {
+          expect(function() {
+            return $.InField.validate_input(void 0);
+          }).toThrow("Element not supported.");
+          expect(function() {
+            return $.InField.validate_input({});
+          }).toThrow("Element not supported.");
+          return expect(function() {
+            return $.InField.validate_input('');
+          }).toThrow("Element not supported.");
         });
-        return it('must return true if the input element is supported', function() {
-          return expect($.InField.validate_input($('<input type="text" />'))).toBeTruthy();
+        it('must throw exception if the input element is not supported', function() {
+          expect(function() {
+            return $.InField.validate_input($('<article />'));
+          }).toThrow("Element not supported.");
+          return expect(function() {
+            return $.InField.validate_input($('<input type="unknown" />'));
+          }).toThrow("Element not supported.");
+        });
+        return it('must not throw exception if the input element is supported', function() {
+          return expect(function() {
+            return $.InField.validate_input($('<input type="text" />'));
+          }).not.toThrow();
         });
       });
       describe('::find_and_validate_label', function() {
-        it('must return undefined if the label element associated with the input element is not found', function() {
+        it('must throw exception if the label element associated with the input element is not found', function() {
           var $input, $label, _ref;
           _ref = set_fixtures_for_not_linking_input_and_label(), $input = _ref[0], $label = _ref[1];
-          return expect($.InField.find_and_validate_label($input, $('<table></table>'))).toBeUndefined();
+          return expect(function() {
+            return $.InField.find_and_validate_label($input, $('<table></table>'));
+          }).toThrow('Label not found.');
         });
         it('must return the label jQuery object if the label element is found outside wrapping the input element', function() {
           var $input, $label, $result, _ref;
           _ref = set_fixtures_for_linking_input_and_parent_label(), $input = _ref[0], $label = _ref[1];
           $result = $.InField.find_and_validate_label($input, $('<table></table>'));
+          expect(function() {
+            return $.InField.find_and_validate_label($input, $('<table></table>'));
+          }).not.toThrow();
           expect($result[0]).toEqual($label[0]);
           expect($result instanceof jQuery).toBeTruthy();
           return expect($result).toBe('label');
@@ -122,29 +144,33 @@
       });
       return describe('::has_value', function() {
         it('must return true if input has value', function() {
-          var $input;
-          $input = $('<input type="text" value="something" />');
-          return expect($.InField.has_value($input)).toBeTruthy();
+          var e;
+          e = {
+            keyCode: 32,
+            target: '<input type="text" value="something" />'
+          };
+          return expect($.InField.has_value(e)).toBeTruthy();
         });
         it('must return true if input has no value but user starts to type', function() {
-          var $input, e;
+          var e;
           e = {
-            keyCode: 32
+            keyCode: 32,
+            target: '<input type="text" />'
           };
-          $input = $('<input type="text" />');
-          return expect($.InField.has_value($input, e)).toBeTruthy();
+          return expect($.InField.has_value(e)).toBeTruthy();
         });
         return it('must return not true if input has no value and user is not typing', function() {
           var $input, e;
           e = {
-            keyCode: 31
+            keyCode: 31,
+            target: '<input type="text" />'
           };
           $input = $('<input type="text" />');
-          expect($.InField.has_value($input, e)).not.toBeTruthy();
-          e = {};
-          expect($.InField.has_value($input, e)).not.toBeTruthy();
-          e = void 0;
-          return expect($.InField.has_value($input, e)).not.toBeTruthy();
+          expect($.InField.has_value(e)).not.toBeTruthy();
+          e = {
+            target: '<input type="text" />'
+          };
+          return expect($.InField.has_value(e)).not.toBeTruthy();
         });
       });
     });

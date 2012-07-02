@@ -34,16 +34,16 @@ jQuery ($) ->
 
   class $.InField
     @init: ($input, options, $label) ->
-      return unless @validate_input $input
-      return unless $label = @find_and_validate_label $input, $label
+      # validations
+      @validate_input $input
+      $label = @find_and_validate_label $input, $label
+
       @link $input, $label
       @wrap $input, $label
       @mark_as_toggled $input # ready to go!
 
-    @validate_input: ($input) ->
-      unless $input.is($.in_field.support_types)
-        return console && console.log("Not supported for #{ $input[0].tagName }")
-      true
+    @validate_input: ($element) ->
+      throw new Error('Element not supported.') unless $element.is($.in_field.support_types)
 
     @find_and_validate_label: ($input, $label) ->
       unless $label && $label.length == 1 && $label.is('label')
@@ -51,7 +51,7 @@ jQuery ($) ->
       if $label && $label.length == 1
         $label
       else
-        console && console.log("No label found")
+        throw new Error('Label not found.')
 
     @find_label_for: ($input) ->
       $label = $input.parents('label:first')
@@ -74,29 +74,31 @@ jQuery ($) ->
       $input.attr('data-toggle', $.in_field.klass)
 
     @validate_event_target: ($target) ->
-      return true if $input.is("[data-toggle=#{ $.in_field.klass }]")
+      return true if $target.is("[data-toggle=#{ $.in_field.klass }]")
 
-    @has_value: ($input, e) ->
-      $input.val() != '' || $input.val() == '' && e && e.keyCode > 31
+    @has_value: (event) ->
+      value = $(event.target).val()
+      value != '' || value == '' && event.keyCode > 31
 
-    @render: (status) ->
+    @render: (status, $input) ->
       switch status
-        when 'min'
-        when 'normal'
-        when 'max'
+        when 'hide' then
+        when 'focus' then
+        when 'normal' then
       
-    @handle_keyup: ($input) ->
+    @handle_keyup: (event) ->
+      if @has_value(event)
+        @render 'hide'
+      else
+        @render 'focus'
 
-    @handle_focue: ($input) ->
+    @handle_focue: (event) ->
+      @render 'focus' unless @has_value(event)
 
-    @handle_blur: ($input) ->
-      @render_normal if $input.val()
+    @handle_blur: (event) ->
+      @render 'normal' unless @has_value(event)
 
-  $('body').on $.in_field.events.keyup, $.in_field.support_types, (e) ->
-    $.InField.handle_keyup $(e.target)
-
-  $('body').on $.in_field.events.focus, $.in_field.support_types, (e) ->
-    $.InField.handle_focus $(e.target)
-
-  $('body').on $.in_field.events.blur, $.in_field.support_types, (e) ->
-    $.InField.handle_blur $(e.target)
+  $('body').on $.in_field.events.keyup, $.in_field.support_types, $.InField.handle_keyup
+  $('body').on $.in_field.events.focus, $.in_field.support_types, $.InField.handle_focus
+  $('body').on $.in_field.events.blur, $.in_field.support_types, $.InField.handle_blur
+    

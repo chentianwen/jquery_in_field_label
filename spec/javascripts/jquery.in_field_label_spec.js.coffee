@@ -18,21 +18,27 @@ jQuery ($) ->
   describe 'InField', ->
 
     describe '::validate_input', ->
-      it 'must return undefined if the input element is not supported', ->
-        expect($.InField.validate_input($('<article />'))).toBeUndefined()
-        expect($.InField.validate_input($('<input type="unknown" />'))).toBeUndefined()
+      it 'must throw exception if the input element is not jQuery object', ->
+        expect(-> $.InField.validate_input(undefined)).toThrow("Element not supported.")
+        expect(-> $.InField.validate_input({})).toThrow("Element not supported.")
+        expect(-> $.InField.validate_input('')).toThrow("Element not supported.")
 
-      it 'must return true if the input element is supported', ->
-        expect($.InField.validate_input($('<input type="text" />'))).toBeTruthy()
+      it 'must throw exception if the input element is not supported', ->
+        expect(-> $.InField.validate_input($('<article />'))).toThrow("Element not supported.")
+        expect(-> $.InField.validate_input($('<input type="unknown" />'))).toThrow("Element not supported.")
+
+      it 'must not throw exception if the input element is supported', ->
+        expect(-> $.InField.validate_input($('<input type="text" />'))).not.toThrow()
 
     describe '::find_and_validate_label', ->
-      it 'must return undefined if the label element associated with the input element is not found', ->
+      it 'must throw exception if the label element associated with the input element is not found', ->
         [ $input, $label ] = set_fixtures_for_not_linking_input_and_label()
-        expect($.InField.find_and_validate_label($input, $('<table></table>'))).toBeUndefined()
+        expect(-> $.InField.find_and_validate_label($input, $('<table></table>'))).toThrow('Label not found.')
 
       it 'must return the label jQuery object if the label element is found outside wrapping the input element', ->
         [ $input, $label ] = set_fixtures_for_linking_input_and_parent_label()
         $result = $.InField.find_and_validate_label($input, $('<table></table>'))
+        expect(-> $.InField.find_and_validate_label($input, $('<table></table>'))).not.toThrow()
         expect($result[0]).toEqual($label[0])
         expect($result instanceof jQuery).toBeTruthy()
         expect($result).toBe('label')
@@ -103,19 +109,16 @@ jQuery ($) ->
 
     describe '::has_value', ->
       it 'must return true if input has value', ->
-        $input = $ '<input type="text" value="something" />'
-        expect($.InField.has_value($input)).toBeTruthy()
+        e = { keyCode: 32, target: '<input type="text" value="something" />' }
+        expect($.InField.has_value(e)).toBeTruthy()
 
       it 'must return true if input has no value but user starts to type', ->
-        e = { keyCode: 32 }
-        $input = $ '<input type="text" />'
-        expect($.InField.has_value($input, e)).toBeTruthy()
+        e = { keyCode: 32, target: '<input type="text" />' }
+        expect($.InField.has_value(e)).toBeTruthy()
 
       it 'must return not true if input has no value and user is not typing', ->
-        e = { keyCode: 31 }
+        e = { keyCode: 31, target: '<input type="text" />' }
         $input = $ '<input type="text" />'
-        expect($.InField.has_value($input, e)).not.toBeTruthy()
-        e = { }
-        expect($.InField.has_value($input, e)).not.toBeTruthy()
-        e = undefined
-        expect($.InField.has_value($input, e)).not.toBeTruthy()
+        expect($.InField.has_value(e)).not.toBeTruthy()
+        e = { target: '<input type="text" />' }
+        expect($.InField.has_value(e)).not.toBeTruthy()
