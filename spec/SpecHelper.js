@@ -17,7 +17,8 @@
       return execJasmine();
     };
     return execJasmine = function() {
-      return jasmineEnv.execute();
+      jasmineEnv.execute();
+      debugger;
     };
   });
 
