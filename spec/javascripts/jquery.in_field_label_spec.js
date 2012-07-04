@@ -19,18 +19,19 @@
       return [$('input', $('#jasmine-fixtures')), $('label', $('#jasmine-fixtures'))];
     };
     return describe('InField', function() {
-      describe('::validate_input', function() {
-        it('must throw exception if the input element is not jQuery object', function() {
-          expect(function() {
-            return $.InField.validate_input(void 0);
-          }).toThrow("Element not supported.");
-          expect(function() {
-            return $.InField.validate_input({});
-          }).toThrow("Element not supported.");
-          return expect(function() {
-            return $.InField.validate_input('');
-          }).toThrow("Element not supported.");
+      describe('::present', function() {
+        it('must return true if the object is presented as jQuery', function() {
+          return expect($.InField.present($('body'))).toBeTruthy();
         });
+        return it('must return not true if the object is not presented', function() {
+          expect($.InField.present(void 0)).not.toBeTruthy();
+          expect($.InField.present({})).not.toBeTruthy();
+          expect($.InField.present([])).not.toBeTruthy();
+          expect($.InField.present([1])).not.toBeTruthy();
+          return expect($.InField.present($('something'))).not.toBeTruthy();
+        });
+      });
+      describe('::validate_input', function() {
         it('must throw exception if the input element is not supported', function() {
           expect(function() {
             return $.InField.validate_input($('<article />'));
@@ -142,7 +143,7 @@
           return expect($input.attr('data-toggle')).toEqual($.in_field.klass);
         });
       });
-      return describe('::has_value', function() {
+      describe('::has_value', function() {
         it('must return true if input has value', function() {
           var e;
           e = {
@@ -172,6 +173,9 @@
           };
           return expect($.InField.has_value(e)).not.toBeTruthy();
         });
+      });
+      return describe('::render', function() {
+        return it('must add focus to ');
       });
     });
   });

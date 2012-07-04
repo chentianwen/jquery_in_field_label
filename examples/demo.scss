@@ -3,6 +3,15 @@ body {
   background-color: white;
 }
 
+.in_field {
+  display: inline-block;
+  label {
+    left: 6px;
+    height: 28px;
+    line-height: 28px;
+  }
+}
+
 .footer {
   margin-top: 45px;
   padding: 35px 0 36px;

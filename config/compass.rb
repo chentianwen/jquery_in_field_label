@@ -3,6 +3,7 @@
 # Set this to the root of your project when deployed:
 css_dir = "examples"
 sass_dir = "examples"
+add_import_path "lib"
 
 # You can select your preferred output style here (can be overridden via the command line):
 # output_style = :expanded or :nested or :compact or :compressed

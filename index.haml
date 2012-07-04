@@ -1,0 +1,132 @@
+- # helpers
+- css = lambda do |css_url|
+  %link{ type: 'text/css', rel: 'stylesheet', href: css_url }
+- js = lambda do |js_url|
+  %script{ type: 'text/javascript', src: js_url }
+- codes = lambda do |lines_of_code, lang = 'lang-html'|
+  %pre{ class: "prettyprint linenums #{ lang }" }
+    :preserve
+      #{ lines_of_code.gsub(/</, '&lt;').gsub(/>/, '&gt;') }
+!!! 5
+%html
+  %head
+    %title Demo
+    - css.call 'vendor/bootstrap/docs/assets/css/bootstrap-responsive.css'
+    - css.call 'vendor/bootstrap/docs/assets/css/bootstrap.css'
+    - css.call 'vendor/bootstrap/docs/assets/css/docs.css'
+    - css.call 'vendor/bootstrap/docs/assets/js/google-code-prettify/prettify.css'
+    - css.call 'lib/jquery.in_field_label.css'
+    - css.call 'examples/demo.css'
+    / - js.call 'http://tian.im/javascripts/google_analytics.js'
+    - js.call 'vendor/jquery-1.7.2.js'
+    - js.call 'vendor/bootstrap/docs/assets/js/bootstrap.js'
+    - js.call 'vendor/prettify.js'
+    - js.call 'lib/jquery.in_field_label.js'
+    - js.call 'examples/demo.js'
+    / TODO: add more info for SEO
+    %meta
+  %body{ 'data-spy' => 'scroll', 'data-target' => 'div.subnav', 'data-offset' => 70 }
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          .nav-collapse
+            %ul.nav
+              %li.active
+                %a Overview
+              %li
+                %a{ href: 'https://github.com/chentianwen/jquery_in_field_label/zipball/master' }
+                  Download ZIP
+              %li.divider-vertical
+              %li
+                %a{ href: 'https://github.com/chentianwen/jquery_in_field_label/issues', target: '_blank' } Issues &amp; Feedbacks
+              %li
+                %a{ href: 'https://github.com/chentianwen/jquery_in_field_label', target: '_blank' } Fork me
+    .container
+      %header.jumbotron.subhead#overview
+        .subnav.subnav-fixed
+          %ul.nav.nav-pills
+            %li
+              %a{ href: '#whatsnew' } What's New
+            %li
+              %a{ href: '#requirement' } Requirement
+            %li
+              %a{ href: '#installation' } Installation
+            %li
+              %a{ href: '#usage' } Usage
+            %li
+              %a{ href: '#example' } Example
+      .page-header
+        %h1.title
+      .row
+        .span3.column
+          %h3 About
+          %p Display the label inline within the input element
+          %h3 Jasmine Test
+          %p
+            %a{ href: 'SpecRunner.html', target: '_blank'} Click to open the test page.
+        .span9.column
+          #whatsnew.section
+            %h2
+              What's New
+            %p
+              %em 0.9.1
+              \- Rewrite the plugin to make it testable using Jasmine.
+          #requirement.section
+            %h2
+              Requirement
+              %small jQuery 1.7 and above
+            - codes.call "<script type='text/javascript' src='url_to/jquery-1.7.min.js' />"
+          #installation.section
+            %h2 Installation
+            - codes.call "<script type='text/javascript' src='url_to/jquery.jquery_in_field_label.js' />"
+          #usage.section
+            %h2 Usage
+            %h3 Javascript call
+            - codes.call "<script type='text/javascript'>\n  jQuery(function($) {\n    $(input_or_textarea_selector).in_field( /* { label_selector | jQuery | Element } */ );\n  });\n</script>"
+            %h3 No javascript call
+            - codes.call "<input id='...' type='\#{ type }' data-toggle='in_field' />\n<label for='\#{ input_id }'>Lable Text</label>"
+            .alert.alert-info
+              %strong NOTE:
+              Support the following types:
+              %ol
+                %li
+                  %em HTML5:
+                  input[type=color], input[type=date], input[type=datetime], input[type=datetime-local], input[type=email], input[type=month], input[type=number], input[type=range], input[type=search], input[type=tel], input[type=time], input[type=url], input[type=week]
+                %li
+                  %em HTML4:
+                  input[type=text], input[type=password], textarea
+          #example.section
+            %h2 Example
+            %h3 Code Example - No javascript needed
+            - codes.call "<input id='email' type='email' data-toggle='in_field'>\n<label for='email'>Email</label>"
+            %h3 Demo
+            .well
+              .span3
+                %label{ for: 'email' } Email address
+                %input{ id: 'email', type: 'email', 'data-toggle' => 'in_field' }
+              .clear
+      .footer
+        %p
+          Licensed under the
+          %a{ href: 'http://www.opensource.org/licenses/MIT' } MIT License
+        %p
+          Powered by the following technologies:
+        .row
+          .span3
+            %h4 Scripting:
+            %a{ href: 'http://jashkenas.github.com/coffee-script/', target: '_blank' } coffee-script
+          .span3
+            %h4 Test:
+            %a{ href: 'http://pivotal.github.com/jasmine/', target: '_blank' } jasmine
+          .span3
+            %h4 Design:
+            %a{ href: 'http://twitter.github.com/bootstrap/', target: '_blank' } bootstrap
+          .span3
+            %h4 Others:
+            %a{ href: 'https://github.com/guard/guard/', target: '_blank' } guard
+            ,
+            %a{ href: 'http://haml-lang.com/', target: '_blank' } haml
+            ,
+            %a{ href: 'http://compass-style.org/', target: '_blank' } compass
+            ,
+            %a{ href: 'http://code.google.com/p/google-code-prettify/', target: '_blank' } google-code-prettify

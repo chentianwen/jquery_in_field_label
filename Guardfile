@@ -8,7 +8,7 @@ guard 'coffeescript', :input => 'spec', :output => 'spec'
 guard 'coffeescript', :input => 'examples', :output => 'examples'
 
 guard 'haml' do
-  watch /^.+\.html\.haml/
+  watch /^.+\.haml/
 end
 
 guard 'compass'

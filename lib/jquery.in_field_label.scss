@@ -1,0 +1,22 @@
+@import "compass/css3";
+
+.in_field {
+  position: relative;
+
+  label {
+    position: absolute;
+    z-index: 100;
+  }
+
+  &.normal label {
+    @include opacity(0.7);
+  }
+
+  &.focus label {
+    @include opacity(0.4);
+  }
+
+  &.blur label {
+    @include transparent;
+  }
+}

@@ -1,4 +1,5 @@
 jQuery ($) ->
+  # fixtures
   set_fixtures_for_not_linking_input_and_label = ->
     setFixtures '<label>Last Name</label><input type="text" name="first_name" />'
     [ $('input', $('#jasmine-fixtures')), $('label', $('#jasmine-fixtures')) ]
@@ -15,14 +16,20 @@ jQuery ($) ->
     setFixtures '<label for="first_name">First Name</label><input id="first_name" type="text" value="Tian" />'
     [ $('input', $('#jasmine-fixtures')), $('label', $('#jasmine-fixtures')) ]
 
+  # test cases
   describe 'InField', ->
+    describe '::present', ->
+      it 'must return true if the object is presented as jQuery', ->
+        expect($.InField.present($('body'))).toBeTruthy()
+
+      it 'must return not true if the object is not presented', ->
+        expect($.InField.present(undefined)).not.toBeTruthy()
+        expect($.InField.present({})).not.toBeTruthy()
+        expect($.InField.present([])).not.toBeTruthy()
+        expect($.InField.present([ 1 ])).not.toBeTruthy()
+        expect($.InField.present($('something'))).not.toBeTruthy()
 
     describe '::validate_input', ->
-      it 'must throw exception if the input element is not jQuery object', ->
-        expect(-> $.InField.validate_input(undefined)).toThrow("Element not supported.")
-        expect(-> $.InField.validate_input({})).toThrow("Element not supported.")
-        expect(-> $.InField.validate_input('')).toThrow("Element not supported.")
-
       it 'must throw exception if the input element is not supported', ->
         expect(-> $.InField.validate_input($('<article />'))).toThrow("Element not supported.")
         expect(-> $.InField.validate_input($('<input type="unknown" />'))).toThrow("Element not supported.")
@@ -122,3 +129,6 @@ jQuery ($) ->
         expect($.InField.has_value(e)).not.toBeTruthy()
         e = { target: '<input type="text" />' }
         expect($.InField.has_value(e)).not.toBeTruthy()
+
+    describe '::render', ->
+      it 'must add focus to '

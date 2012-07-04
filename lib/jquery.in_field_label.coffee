@@ -19,21 +19,23 @@ jQuery ($) ->
 
   # options
   $.in_field =
-    defaults:
-      label_hide:
-        hide: 'hide'
     version: '0.9.1'
     name: 'JQuery In-field Label'
     klass: 'in_field'
     # support HTML5 elements INPUT and TEXTAREA
     support_types: 'input[type=text], input[type=password], input[type=color], input[type=date], input[type=datetime], input[type=datetime-local], input[type=email], input[type=month], input[type=number], input[type=range], input[type=search], input[type=tel], input[type=time], input[type=url], input[type=week], textarea'
+    mark: '[data-toggle=in_field]'
     events:
       keyup:  'keyup.jquery_in_field_label'
       focus:  'focus.jquery_in_field_label'
       blur:   'blur.jquery_in_field_label'
 
   class $.InField
-    @init: ($input, options, $label) ->
+    # helper
+    @present: (obj) ->
+      obj && obj instanceof $ && obj.length == 1
+
+    @init: ($input, $label) ->
       # validations
       @validate_input $input
       $label = @find_and_validate_label $input, $label
@@ -41,22 +43,21 @@ jQuery ($) ->
       @link $input, $label
       @wrap $input, $label
       @mark_as_toggled $input # ready to go!
+      @render 'normal', $input
 
+    # @private
     @validate_input: ($element) ->
       throw new Error('Element not supported.') unless $element.is($.in_field.support_types)
 
     @find_and_validate_label: ($input, $label) ->
-      unless $label && $label.length == 1 && $label.is('label')
-        $label = @find_label_for $input
-      if $label && $label.length == 1
-        $label
-      else
-        throw new Error('Label not found.')
+      $label = @find_label_for $input unless @present($label) && $label.is('label')
+      return $label if @present($label)
+      throw new Error('Label not found.')
 
     @find_label_for: ($input) ->
       $label = $input.parents('label:first')
-      $label = $("label[for='#{ $input.attr('id') }']") if $label.length == 0
-      $label if $label.length == 1
+      $label = $("label[for='#{ $input.attr('id') }']") unless @present($label)
+      $label if @present($label)
 
     @link: ($input, $label) ->
       id = $input.attr('id')
@@ -73,32 +74,33 @@ jQuery ($) ->
     @mark_as_toggled: ($input) ->
       $input.attr('data-toggle', $.in_field.klass)
 
-    @validate_event_target: ($target) ->
-      return true if $target.is("[data-toggle=#{ $.in_field.klass }]")
-
     @has_value: (event) ->
       value = $(event.target).val()
-      value != '' || value == '' && event.keyCode > 31
+      (value && value.length > 0) || (value == '' && event.keyCode > 31)
 
     @render: (status, $input) ->
       switch status
-        when 'hide' then
-        when 'focus' then
-        when 'normal' then
+        when 'blur'   then $input.parent().addClass('blur').removeClass('normal focus')
+        when 'focus'  then $input.parent().addClass('focus').removeClass('normal blur')
+        when 'normal' then $input.parent().addClass('normal').removeClass('focus blur')
       
     @handle_keyup: (event) ->
-      if @has_value(event)
-        @render 'hide'
+      unless @has_value(event)
+        @render 'focus', $(event.target)
       else
-        @render 'focus'
+        @render 'blur', $(event.target)
 
-    @handle_focue: (event) ->
-      @render 'focus' unless @has_value(event)
+    @handle_focus: (event) ->
+      @render 'focus', $(event.target) unless @has_value(event)
 
     @handle_blur: (event) ->
-      @render 'normal' unless @has_value(event)
+      @render 'normal', $(event.target) unless @has_value(event)
 
-  $('body').on $.in_field.events.keyup, $.in_field.support_types, $.InField.handle_keyup
-  $('body').on $.in_field.events.focus, $.in_field.support_types, $.InField.handle_focus
-  $('body').on $.in_field.events.blur, $.in_field.support_types, $.InField.handle_blur
-    
+  $('body').on $.in_field.events.keyup, $.in_field.mark, $.proxy($.InField.handle_keyup, $.InField)
+  $('body').on $.in_field.events.focus, $.in_field.mark, $.proxy($.InField.handle_focus, $.InField)
+  $('body').on $.in_field.events.blur,  $.in_field.mark, $.proxy($.InField.handle_blur, $.InField)
+
+  $.fn.in_field = ($label) ->
+    $(@).each -> $.InField.init($(@), $label)
+
+  $($.in_field.support_types).filter($.in_field.mark).in_field()

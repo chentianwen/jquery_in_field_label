@@ -1,7 +1,8 @@
 (function() {
 
   jQuery(function($) {
-    return $('h1.title').text($.InFieldLabel.plugin_name + ' ' + $.InFieldLabel.version);
+    $('h1.title').text($.in_field.name + ' ' + $.in_field.version);
+    return prettyPrint();
   });
 
 }).call(this);

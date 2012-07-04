@@ -2,17 +2,17 @@
 <html>
   <head>
     <title>Demo</title>
-    test 1
-<link href='http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css' rel='stylesheet' type='text/css' />
-<link href='http://twitter.github.com/bootstrap/assets/css/bootstrap.css' rel='stylesheet' type='text/css' />
-<link href='http://twitter.github.com/bootstrap/assets/css/docs.css' rel='stylesheet' type='text/css' />
-<link href='http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css' rel='stylesheet' type='text/css' />
+<link href='vendor/bootstrap/docs/assets/css/bootstrap-responsive.css' rel='stylesheet' type='text/css' />
+<link href='vendor/bootstrap/docs/assets/css/bootstrap.css' rel='stylesheet' type='text/css' />
+<link href='vendor/bootstrap/docs/assets/css/docs.css' rel='stylesheet' type='text/css' />
+<link href='vendor/bootstrap/docs/assets/js/google-code-prettify/prettify.css' rel='stylesheet' type='text/css' />
+<link href='lib/jquery.in_field_label.css' rel='stylesheet' type='text/css' />
 <link href='examples/demo.css' rel='stylesheet' type='text/css' />
-<script src='http://tian.im/javascripts/google_analytics.js' type='text/javascript'></script>
-<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js' type='text/javascript'></script>
-<script src='http://twitter.github.com/bootstrap/assets/js/bootstrap-scrollspy.js' type='text/javascript'></script>
-<script src='http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js' type='text/javascript'></script>
-<script src='src/jquery.dropdown_list_chain.js' type='text/javascript'></script>
+    <!-- - js.call 'http://tian.im/javascripts/google_analytics.js' -->
+<script src='vendor/jquery-1.7.2.js' type='text/javascript'></script>
+<script src='vendor/bootstrap/docs/assets/js/bootstrap.js' type='text/javascript'></script>
+<script src='vendor/prettify.js' type='text/javascript'></script>
+<script src='lib/jquery.in_field_label.js' type='text/javascript'></script>
 <script src='examples/demo.js' type='text/javascript'></script>
     <!-- TODO: add more info for SEO -->
     <meta />
@@ -27,16 +27,16 @@
                 <a>Overview</a>
               </li>
               <li>
-                <a href='https://github.com/chentianwen/jquery_dropdown_list_chain/zipball/master'>
+                <a href='https://github.com/chentianwen/jquery_in_field_label/zipball/master'>
                   Download ZIP
                 </a>
               </li>
               <li class='divider-vertical'></li>
               <li>
-                <a href='https://github.com/chentianwen/jquery_dropdown_list_chain/issues' target='_blank'>Issues &amp; Feedbacks</a>
+                <a href='https://github.com/chentianwen/jquery_in_field_label/issues' target='_blank'>Issues &amp; Feedbacks</a>
               </li>
               <li>
-                <a href='https://github.com/chentianwen/jquery_dropdown_list_chain' target='_blank'>Fork me</a>
+                <a href='https://github.com/chentianwen/jquery_in_field_label' target='_blank'>Fork me</a>
               </li>
             </ul>
           </div>
@@ -60,13 +60,7 @@
               <a href='#usage'>Usage</a>
             </li>
             <li>
-              <a href='#options'>Options</a>
-            </li>
-            <li>
-              <a href='#example-local'>Example - Local</a>
-            </li>
-            <li>
-              <a href='#example-remote'>Example - Remote</a>
+              <a href='#example'>Example</a>
             </li>
           </ul>
         </div>
@@ -77,7 +71,7 @@
       <div class='row'>
         <div class='span3 column'>
           <h3>About</h3>
-          <p>Help you to reload the dropdown list options once target dropdown list is changed.</p>
+          <p>Display the label inline within the input element</p>
           <h3>Jasmine Test</h3>
           <p>
             <a href='SpecRunner.html' target='_blank'>Click to open the test page.</a>
@@ -87,293 +81,53 @@
           <div class='section' id='whatsnew'>
             <h2>
               What's New
-              <small>Not really</small>
             </h2>
+            <p>
+              <em>0.9.1</em>
+              - Rewrite the plugin to make it testable using Jasmine.
+            </p>
           </div>
           <div class='section' id='requirement'>
             <h2>
               Requirement
-              <small>Latest version of jQuery</small>
+              <small>jQuery 1.7 and above</small>
             </h2>
-<pre class='prettyprint linenums lang-html'>&lt;script type='text/javascript' src='url_to/jquery.min.js' /&gt;</pre>
+<pre class='prettyprint linenums lang-html'>&lt;script type='text/javascript' src='url_to/jquery-1.7.min.js' /&gt;</pre>
           </div>
           <div class='section' id='installation'>
             <h2>Installation</h2>
-<pre class='prettyprint linenums lang-html'>&lt;script type='text/javascript' src='url_to/jquery.dropdown_list_chain.js' /&gt;</pre>
+<pre class='prettyprint linenums lang-html'>&lt;script type='text/javascript' src='url_to/jquery.jquery_in_field_label.js' /&gt;</pre>
           </div>
           <div class='section' id='usage'>
             <h2>Usage</h2>
-<pre class='prettyprint linenums lang-html'>&lt;script type='text/javascript'&gt;&#x000A;  jQuery(function($) {&#x000A;    $(chainer_selector).chain( /* { chainee_selector | jQuery | Element } [ , options = {} ] */ );&#x000A;    $(chainee_selector).chainedTo( /* { chainer_selector | jQuery | Element } [ , options = {} ] */ );&#x000A;  });&#x000A;&lt;/script&gt;</pre>
+            <h3>Javascript call</h3>
+<pre class='prettyprint linenums lang-html'>&lt;script type='text/javascript'&gt;&#x000A;  jQuery(function($) {&#x000A;    $(input_or_textarea_selector).in_field( /* { label_selector | jQuery | Element } */ );&#x000A;  });&#x000A;&lt;/script&gt;</pre>
+            <h3>No javascript call</h3>
+<pre class='prettyprint linenums lang-html'>&lt;input id='...' type='#{ type }' data-toggle='in_field' /&gt;&#x000A;&lt;label for='#{ input_id }'&gt;Lable Text&lt;/label&gt;</pre>
             <div class='alert alert-info'>
               <strong>NOTE:</strong>
-              the chainer doesn't need to be a dropdown list, it could be input field, checkbox, radiobox or even a textarea. Please see Local -> Option 2 -> Demo.
-            </div>
-            <div class='alert alert-info'>
-              <strong>NOTE:</strong>
-              the chainee must be HTML Select element.
+              Support the following types:
+              <ol>
+                <li>
+                  <em>HTML5:</em>
+                  input[type=color], input[type=date], input[type=datetime], input[type=datetime-local], input[type=email], input[type=month], input[type=number], input[type=range], input[type=search], input[type=tel], input[type=time], input[type=url], input[type=week]
+                </li>
+                <li>
+                  <em>HTML4:</em>
+                  input[type=text], input[type=password], textarea
+                </li>
+              </ol>
             </div>
           </div>
-          <div class='section' id='options'>
-            <h2>Options</h2>
-            <h3>Precedence:</h3>
-            <ol>
-              <li>
-                <p>Options passed in javascript.</p>
-                <p>
-                  e.g.
-                  <code>$('selector').chain('selector', { include_blank: false });</code>
-                </p>
-              </li>
-              <li>
-                <p>Options set in the HTML</p>
-                <p>
-                  e.g.
-                  <code>&lt;select data-include_blank='false' /&gt;</code>
-                </p>
-              </li>
-              <li>Default options</li>
-            </ol>
-            <table class='table table-bordered table-striped'>
-              <thead>
-                <tr>
-                  <th width='100px'>Name</th>
-                  <th width='50px'>Type</th>
-                  <th width='100px'>Default</th>
-                  <th>Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>include_blank</td>
-                  <td>object</td>
-                  <td>
-                    <div>{</div>
-                    <div>&nbsp; &nbsp; text: ' - ',</div>
-                    <div>&nbsp; &nbsp; value: ''</div>
-                    <div>}</div>
-                  </td>
-                  <td>
-                    <p>Whether to include the blank option for dropdown list as the first item.</p>
-                    <p>
-                      You could disable this by setting it to
-                      <code>false</code>
-                    </p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>include_blank.text</td>
-                  <td>string</td>
-                  <td>' - '</td>
-                  <td>
-                    <b>Text</b>
-                    for the blank option.
-                  </td>
-                </tr>
-                <tr>
-                  <td>include_blank.value</td>
-                  <td>string</td>
-                  <td>''</td>
-                  <td>
-                    <b>Value</b>
-                    for the blank option.
-                  </td>
-                </tr>
-                <tr>
-                  <td>remember_last_value</td>
-                  <td>boolean</td>
-                  <td>true</td>
-                  <td>Whether to remember the last selected value</td>
-                </tr>
-                <tr>
-                  <td>ajax</td>
-                  <td>object</td>
-                  <td>false</td>
-                  <td>
-                    <p>
-                      1. Options for jQuery AJAX call, see
-                      <a href='http://api.jquery.com/jQuery.ajax/' target='_blank'>jQuery.ajax( settings )</a>
-                    </p>
-                    <p>2. or you coulf pass a function to return options for jQuery AJAX.</p>
-                    <p>
-                      <b>param:</b>
-                      <code>$chainer</code>
-                      ,
-                      <code>$chainee</code>
-                    </p>
-                    <p>
-                      <b>return:</b>
-                      <code>object</code>
-                    </p>
-                    <p>For example:</p>
-<pre class='prettyprint linenums javascript'>function($chainer, $chainee) {&#x000A; return {};&#x000A;}</pre>
-                  </td>
-                </tr>
-                <tr>
-                  <td>ajax_mapping</td>
-                  <td>object</td>
-                  <td>
-                    <div>{</div>
-                    <div>&nbsp; &nbsp; text: ' - ',</div>
-                    <div>&nbsp; &nbsp; value: '',</div>
-                    <div>&nbsp; &nbsp; build_option: false</div>
-                    <div>}</div>
-                  </td>
-                  <td>Options for setting up how to map each AJAX record and build the HTML Option element.</td>
-                </tr>
-                <tr>
-                  <td>ajax_mapping.filter</td>
-                  <td>function</td>
-                  <td>false</td>
-                  <td>
-                    <p>Custom method to filter each AJAX record.</p>
-                    <p>
-                      <b>param:</b>
-                      <code>record</code>
-                      ,
-                      <code>chainer_value</code>
-                    </p>
-                    <p>
-                      <b>return:</b>
-                      <code>boolean</code>
-                    </p>
-                    <p>
-                      Example:
-                    </p>
-<pre class='prettyprint linenums javascript'>function(record, chainer_value) {&#x000A; return chainer_value == record;&#x000A;}</pre>
-                  </td>
-                </tr>
-                <tr>
-                  <td>ajax_mapping.text</td>
-                  <td>string</td>
-                  <td>'text'</td>
-                  <td>
-                    Property name of each AJAX record which will be used as the
-                    <b>text</b>
-                  </td>
-                </tr>
-                <tr>
-                  <td>ajax_mapping.value</td>
-                  <td>string</td>
-                  <td>''</td>
-                  <td>
-                    Property name of each AJAX record which will be used as the
-                    <b>value</b>
-                  </td>
-                </tr>
-                <tr>
-                  <td>ajax_mapping.build_option</td>
-                  <td>function</td>
-                  <td>false</td>
-                  <td>
-                    <p>Custom method to map each AJAX record to build the HTML Option element.</p>
-                    <p>
-                      <b>param:</b>
-                      <code>record</code>
-                    </p>
-                    <p>
-                      <b>return:</b>
-                      <code>option</code>
-                      <small>( jQuery | Element )</small>
-                    </p>
-                    <p>
-                      Example:
-                    </p>
-<pre class='prettyprint linenums javascript'>function(record) {&#x000A; return $('&lt;option /&gt;').text(record.text).attr('value', record.value)&#x000A;}</pre>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class='section' id='example-local'>
-            <h2>Example - Local</h2>
-            <h3>Option 1</h3>
-            <p>No javascript is needed if you follow below markup.</p>
-<pre class='prettyprint linenums lang-html'>&lt;!-- Chainee --&gt;&#x000A;&lt;select id='...' data-target='#{ parent_css_selector }' data-toggle='chain'&gt;&#x000A;  &lt;option value='...' data-chain='...'&gt; ... &lt;/option&gt;&#x000A;&lt;/select&gt;</pre>
-            <h3>Code Example</h3>
-<pre class='prettyprint linenums lang-html'>&lt;!-- Chainer --&gt;&#x000A;&lt;select id='country'&gt;&#x000A;  &lt;option value='au'&gt; Australia &lt;/option&gt;&#x000A;  &lt;option value='cn'&gt; China &lt;/option&gt;&#x000A;&lt;/select&gt;&#x000A;&#x000A;&lt;!-- Chainee --&gt;&#x000A;&lt;select id='city' data-target='#country' data-toggle='chain'&gt;&#x000A;  &lt;option value='syd' data-chain='au'&gt; Sydney &lt;/option&gt;&#x000A;  &lt;option value='mel' data-chain='au'&gt; Melbourne &lt;/option&gt;&#x000A;  &lt;option value='bj' data-chain='cn'&gt; Bei Jing &lt;/option&gt;&#x000A;  &lt;option value='gz' data-chain='cn'&gt; Guang Zhou &lt;/option&gt;&#x000A;&lt;/select&gt;</pre>
+          <div class='section' id='example'>
+            <h2>Example</h2>
+            <h3>Code Example - No javascript needed</h3>
+<pre class='prettyprint linenums lang-html'>&lt;input id='email' type='email' data-toggle='in_field'&gt;&#x000A;&lt;label for='email'&gt;Email&lt;/label&gt;</pre>
             <h3>Demo</h3>
             <div class='well'>
               <div class='span3'>
-                <label for='country'>Country</label>
-                <select id='country' name='country'>
-                  <option></option>
-                  <option selected='selected' value='au'>Australia</option>
-                  <option value='cn'>China</option>
-                </select>
-              </div>
-              <div class='span3'>
-                <label for='city'>Major City</label>
-                <select data-target='#country' data-toggle='chain' id='city' name='city'>
-                  <option></option>
-                  <option data-chain='au' value='syd'>Sydney</option>
-                  <option data-chain='au' value='mel'>Melbourne</option>
-                  <option data-chain='au' value='bne'>Brisbane</option>
-                  <option data-chain='au' selected='selected' value='adl'>Adelaide</option>
-                  <option data-chain='cn' value='bj'>Bei Jing</option>
-                  <option data-chain='cn' value='sh'>Shang Hai</option>
-                  <option data-chain='cn' value='gz'>Guang Zhou</option>
-                </select>
-              </div>
-              <div class='span3'>
-                <label for='wildlife'>Wildlife</label>
-                <select data-target='#country' data-toggle='chain' id='wildlife' name='wildlife'>
-                  <option></option>
-                  <option data-chain='au' value='koala'>Koala</option>
-                  <option data-chain='au' value='kangaroo'>Kangaroo</option>
-                  <option data-chain='cn' value='panda'>Panda</option>
-                  <option data-chain='cn' value='monkey'>Snub-nosed Monkey</option>
-                </select>
-              </div>
-              <div class='clear'></div>
-            </div>
-            <h3>Option 2</h3>
-            <p>Manual Javascript setup.</p>
-            <h3>Code Example</h3>
-<pre class='prettyprint linenums lang-html'>&lt;!-- Chainer --&gt;&#x000A;&lt;input id='species' /&gt;&#x000A;&#x000A;&lt;!-- Chainee --&gt;&#x000A;&lt;select id='breed'&gt;&#x000A;  &lt;option value='' data-chain='dog'&gt; Sydney &lt;/option&gt;&#x000A;  &lt;option value='mel' data-chain='dog'&gt; Melbourne &lt;/option&gt;&#x000A;  &lt;option value='bj' data-chain='cat'&gt; Bei Jing &lt;/option&gt;&#x000A;  &lt;option value='gz' data-chain='cat'&gt; Guang Zhou &lt;/option&gt;&#x000A;&lt;/select&gt;&#x000A;&#x000A;&lt;script type='text/javascript'&gt;&#x000A;  jQuery(function($) {&#x000A;    $('#country').chain('#city');&#x000A;    // or $('#city').chainedTo('#country');&#x000A;  });&#x000A;&lt;/script&gt;</pre>
-            <h3>Demo</h3>
-            <div class='well'>
-              <div class='span3'>
-                <label for='species'>Species</label>
-                <input id='species' name='species' value='cat' />
-                <small>try to fill in 'dog' or 'cat'</small>
-              </div>
-              <div class='span3'>
-                <label for='breed'>Breed</label>
-                <select id='breed' name='breed'>
-                  <option></option>
-                  <option data-chain='dog' value='siberian_husky'>Siberian Husky</option>
-                  <option data-chain='dog' selected='selected' value='shetland_sheepdog'>Shetland Sheepdog</option>
-                  <option data-chain='dog' value='boxer'>Boxer</option>
-                  <option data-chain='cat' value='persian'>Persian</option>
-                  <option data-chain='cat' value='egyptian_mau'>Egyptian Mau</option>
-                </select>
-              </div>
-              <div class='clear'></div>
-            </div>
-          </div>
-          <div class='section' id='example-remote'>
-            <h2>Example - Remote</h2>
-            <p>
-              See
-              <a href='http://api.jquery.com/jQuery.ajax/' target='_blank'>jQuery.ajax( settings )</a>
-              for more information about the jQuery AJAX call.
-            </p>
-            <h3>Code Example</h3>
-<pre class='prettyprint linenums lang-html'>&lt;!-- Chainer --&gt;&#x000A;&lt;select id='gender' /&gt;&#x000A;  &lt;option /&gt;&#x000A;  &lt;option value='male'&gt; Male &lt;/option&gt;&#x000A;  &lt;option value='female'&gt; Female &lt;/option&gt;&#x000A;  &lt;option value='unknown'&gt; Unknown &lt;/option&gt;&#x000A;&lt;/select&gt;&#x000A;&#x000A;&lt;!-- Chainee --&gt;&#x000A;&lt;select id='person_name'&gt;&lt;/select&gt;&#x000A;&#x000A;&lt;script type='text/javascript'&gt;&#x000A;  jQuery(function($) {&#x000A;    $('#gender').chain('#person_name', {&#x000A;      ajax: {&#x000A;        url: './examples/demo.json',&#x000A;        dataType: 'json'&#x000A;      },&#x000A;      ajax_mapping: {&#x000A;        filter: function(record, chainer_value) {&#x000A;          if (record.chain !== chainer_value) return true;&#x000A;        }&#x000A;      }&#x000A;    });&#x000A;  });&#x000A;&lt;/script&gt;</pre>
-            <h3>Demo</h3>
-            <div class='well'>
-              <div class='span3'>
-                <label for='gender'>Gender</label>
-                <select id='gender' name='gender'>
-                  <option></option>
-                  <option value='male'>Male</option>
-                  <option value='female'>Female</option>
-                  <option value='unknown'>Unknown</option>
-                </select>
-              </div>
-              <div class='span3'>
-                <label for='person_name'>Name for the Person</label>
-                <select id='person_name' name='person_name'></select>
+                <label for='email'>Email address</label>
+                <input data-toggle='in_field' id='email' type='email' />
               </div>
               <div class='clear'></div>
             </div>
