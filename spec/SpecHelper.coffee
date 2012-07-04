@@ -13,5 +13,3 @@ jQuery ($) ->
 
 	execJasmine = () ->
 	  jasmineEnv.execute()
-	  debugger
-
