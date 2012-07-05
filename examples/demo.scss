@@ -18,10 +18,7 @@ iframe {
 
 #jasmine-build-status {
   padding-bottom: 13px;
-  &.failed {
-    background-image: url('/jquery_in_field_label/examples/failing.png');
-  }
-
+  background: url('/jquery_in_field_label/examples/failing.png') no-repeat top left;
   &.passed {
     background-image: url('/jquery_in_field_label/examples/failing.png');
   }
