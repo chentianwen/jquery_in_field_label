@@ -6,3 +6,5 @@ gem 'guard-compass'
 gem 'guard-haml'
 gem 'rb-readline'
 gem 'growl'
+
+gem 'jekyll'

@@ -1,0 +1,4 @@
+auto: true
+baseurl: /jquery_in_field_label
+server: true
+server_port: 3000

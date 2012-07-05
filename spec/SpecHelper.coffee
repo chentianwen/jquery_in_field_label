@@ -7,7 +7,7 @@ jQuery ($) ->
       else
         'failed'
       unless self == top
-        top.getElementById('jasmine-build-status').className = result
+        top.document.getElementById('jasmine-build-status').className = result
 
   jasmineEnv = jasmine.getEnv()
   jasmineEnv.updateInterval = 1000

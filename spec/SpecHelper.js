@@ -17,7 +17,7 @@
         MyReporter.__super__.reportRunnerResults.apply(this, arguments);
         result = runner.results().failedCount === 0 ? 'passed' : 'failed';
         if (self !== top) {
-          return top.getElementById('jasmine-build-status').className = result;
+          return top.document.getElementById('jasmine-build-status').className = result;
         }
       };
 
