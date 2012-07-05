@@ -27,7 +27,7 @@ iframe {
 }
 /* line 22, demo.scss */
 #jasmine-build-status.passed {
-  background-image: url("/jquery_in_field_label/examples/failing.png");
+  background-image: url("/jquery_in_field_label/examples/passing.png");
 }
 
 /* line 27, demo.scss */
