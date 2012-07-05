@@ -16,7 +16,9 @@
         var result;
         MyReporter.__super__.reportRunnerResults.apply(this, arguments);
         result = runner.results().failedCount === 0 ? 'passed' : 'failed';
-        return $('body').attr('data-build-status', result);
+        if (self !== top) {
+          return top.getElementById('jasmine-build-status').className = result;
+        }
       };
 
       return MyReporter;

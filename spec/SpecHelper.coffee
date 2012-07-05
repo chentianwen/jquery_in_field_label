@@ -6,7 +6,8 @@ jQuery ($) ->
         'passed'
       else
         'failed'
-      $('body').attr('data-build-status', result)
+      unless self == top
+        top.getElementById('jasmine-build-status').className = result
 
   jasmineEnv = jasmine.getEnv()
   jasmineEnv.updateInterval = 1000
