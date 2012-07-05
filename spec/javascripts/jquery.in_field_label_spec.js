@@ -175,7 +175,9 @@
         });
       });
       return describe('::render', function() {
-        return it('must add focus to ');
+        return it('must add focus to the target element', function() {
+          return expect(1).toEqual(0);
+        });
       });
     });
   });

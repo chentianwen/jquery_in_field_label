@@ -62,6 +62,7 @@
           %h3 About
           %p Display the label inline within the input element
           %h3 Jasmine Test
+          #jasmine-build-status
           %p
             %a{ href: 'SpecRunner.html', target: '_blank'} Click to open the test page.
         .span9.column
@@ -130,3 +131,5 @@
             %a{ href: 'http://compass-style.org/', target: '_blank' } compass
             ,
             %a{ href: 'http://code.google.com/p/google-code-prettify/', target: '_blank' } google-code-prettify
+
+    %iframe{ id: 'spec', src: 'SpecRunner.html', frameborder: 0 }

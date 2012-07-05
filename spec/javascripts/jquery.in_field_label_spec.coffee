@@ -131,4 +131,5 @@ jQuery ($) ->
         expect($.InField.has_value(e)).not.toBeTruthy()
 
     describe '::render', ->
-      it 'must add focus to '
+      it 'must add focus to the target element', ->
+        expect(1).toEqual 0

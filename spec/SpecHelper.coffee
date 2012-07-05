@@ -1,15 +1,18 @@
 jQuery ($) ->
-	jasmineEnv = jasmine.getEnv()
-	jasmineEnv.updateInterval = 1000
-	trivialReporter = new jasmine.TrivialReporter()
-	jasmineEnv.addReporter trivialReporter
-	jasmineEnv.specFilter = (spec) ->
-	  trivialReporter.specFilter spec
+  class MyReporter extends jasmine.TrivialReporter
+    reportRunnerResults: (runner) ->
+      super
+      result = if runner.results().failedCount == 0
+        'passed'
+      else
+        'failed'
+      $('body').attr('data-build-status', result)
 
-	currentWindowOnload = window.onload
-	window.onload = () ->
-	  currentWindowOnload() if currentWindowOnload
-	  execJasmine()
+  jasmineEnv = jasmine.getEnv()
+  jasmineEnv.updateInterval = 1000
+  myReporter = new MyReporter()
+  jasmineEnv.addReporter myReporter
+  jasmineEnv.specFilter = (spec) ->
+    myReporter.specFilter spec
 
-	execJasmine = () ->
-	  jasmineEnv.execute()
+  jasmineEnv.execute()

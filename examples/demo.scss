@@ -3,6 +3,10 @@ body {
   background-color: white;
 }
 
+iframe {
+  display: none;
+}
+
 .in_field {
   display: inline-block;
   label {
