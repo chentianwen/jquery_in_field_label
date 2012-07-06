@@ -19,7 +19,7 @@ jQuery ($) ->
   # test cases
   describe 'InField', ->
     describe '::present', ->
-      it 'must return true if the object is presented as jQuery', ->
+      it 'must return true if the object is presented as not empty jQuery', ->
         expect($.InField.present($('body'))).toBeTruthy()
 
       it 'must return not true if the object is not presented', ->
@@ -45,7 +45,6 @@ jQuery ($) ->
       it 'must return the label jQuery object if the label element is found outside wrapping the input element', ->
         [ $input, $label ] = set_fixtures_for_linking_input_and_parent_label()
         $result = $.InField.find_and_validate_label($input, $('<table></table>'))
-        expect(-> $.InField.find_and_validate_label($input, $('<table></table>'))).not.toThrow()
         expect($result[0]).toEqual($label[0])
         expect($result instanceof jQuery).toBeTruthy()
         expect($result).toBe('label')
