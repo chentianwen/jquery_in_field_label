@@ -30,17 +30,17 @@ jQuery ($) ->
         expect($.InField.present($('something'))).not.toBeTruthy()
 
     describe '::validate_input', ->
-      it 'must throw exception if the input element is not supported', ->
-        expect(-> $.InField.validate_input($('<article />'))).toThrow("Element not supported.")
-        expect(-> $.InField.validate_input($('<input type="unknown" />'))).toThrow("Element not supported.")
+      it 'must return not true if the input element is not supported', ->
+        expect($.InField.validate_input($('<article />'))).not.toBeTruthy()
+        expect($.InField.validate_input($('<input type="unknown" />'))).not.toBeTruthy()
 
-      it 'must not throw exception if the input element is supported', ->
-        expect(-> $.InField.validate_input($('<input type="text" />'))).not.toThrow()
+      it 'must return true if the input element is supported', ->
+        expect($.InField.validate_input($('<input type="text" />'))).toBeTruthy()
 
     describe '::find_and_validate_label', ->
-      it 'must throw exception if the label element associated with the input element is not found', ->
+      it 'must return not true if the label element associated with the input element is not found', ->
         [ $input, $label ] = set_fixtures_for_not_linking_input_and_label()
-        expect(-> $.InField.find_and_validate_label($input, $('<table></table>'))).toThrow('Label not found.')
+        expect($.InField.find_and_validate_label($input, $('<table></table>'))).not.toBeTruthy()
 
       it 'must return the label jQuery object if the label element is found outside wrapping the input element', ->
         [ $input, $label ] = set_fixtures_for_linking_input_and_parent_label()

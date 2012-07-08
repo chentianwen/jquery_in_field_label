@@ -20,7 +20,7 @@
     };
     return describe('InField', function() {
       describe('::present', function() {
-        it('must return true if the object is presented as jQuery', function() {
+        it('must return true if the object is presented as not empty jQuery', function() {
           return expect($.InField.present($('body'))).toBeTruthy();
         });
         return it('must return not true if the object is not presented', function() {
@@ -32,35 +32,24 @@
         });
       });
       describe('::validate_input', function() {
-        it('must throw exception if the input element is not supported', function() {
-          expect(function() {
-            return $.InField.validate_input($('<article />'));
-          }).toThrow("Element not supported.");
-          return expect(function() {
-            return $.InField.validate_input($('<input type="unknown" />'));
-          }).toThrow("Element not supported.");
+        it('must return not true if the input element is not supported', function() {
+          expect($.InField.validate_input($('<article />'))).not.toBeTruthy();
+          return expect($.InField.validate_input($('<input type="unknown" />'))).not.toBeTruthy();
         });
-        return it('must not throw exception if the input element is supported', function() {
-          return expect(function() {
-            return $.InField.validate_input($('<input type="text" />'));
-          }).not.toThrow();
+        return it('must return true if the input element is supported', function() {
+          return expect($.InField.validate_input($('<input type="text" />'))).toBeTruthy();
         });
       });
       describe('::find_and_validate_label', function() {
-        it('must throw exception if the label element associated with the input element is not found', function() {
+        it('must return not true if the label element associated with the input element is not found', function() {
           var $input, $label, _ref;
           _ref = set_fixtures_for_not_linking_input_and_label(), $input = _ref[0], $label = _ref[1];
-          return expect(function() {
-            return $.InField.find_and_validate_label($input, $('<table></table>'));
-          }).toThrow('Label not found.');
+          return expect($.InField.find_and_validate_label($input, $('<table></table>'))).not.toBeTruthy();
         });
         it('must return the label jQuery object if the label element is found outside wrapping the input element', function() {
           var $input, $label, $result, _ref;
           _ref = set_fixtures_for_linking_input_and_parent_label(), $input = _ref[0], $label = _ref[1];
           $result = $.InField.find_and_validate_label($input, $('<table></table>'));
-          expect(function() {
-            return $.InField.find_and_validate_label($input, $('<table></table>'));
-          }).not.toThrow();
           expect($result[0]).toEqual($label[0]);
           expect($result instanceof jQuery).toBeTruthy();
           return expect($result).toBe('label');
