@@ -1,22 +1,26 @@
 (function() {
 
   jQuery(function($) {
-    var set_fixtures_for_empty_input_and_label, set_fixtures_for_linking_input_and_non_parent_label, set_fixtures_for_linking_input_and_parent_label, set_fixtures_for_non_empty_input_and_label, set_fixtures_for_not_linking_input_and_label;
-    set_fixtures_for_not_linking_input_and_label = function() {
+    var set_fixtures_for_associating_input_and_non_parent_label, set_fixtures_for_associating_input_and_parent_label, set_fixtures_for_empty_input_and_label, set_fixtures_for_non_empty_input_and_label, set_fixtures_for_not_associating_input_and_label, set_fixtures_for_rendering;
+    set_fixtures_for_not_associating_input_and_label = function() {
       setFixtures('<label>Last Name</label><input type="text" name="first_name" />');
       return [$('input', $('#jasmine-fixtures')), $('label', $('#jasmine-fixtures'))];
     };
-    set_fixtures_for_linking_input_and_parent_label = function() {
+    set_fixtures_for_associating_input_and_parent_label = function() {
       setFixtures('<label>First Name <input type="text" name="first_name" /></label>');
       return [$('input', $('#jasmine-fixtures')), $('label', $('#jasmine-fixtures'))];
     };
-    set_fixtures_for_linking_input_and_non_parent_label = set_fixtures_for_empty_input_and_label = function() {
+    set_fixtures_for_associating_input_and_non_parent_label = set_fixtures_for_empty_input_and_label = function() {
       setFixtures('<label for="first_name">First Name</label><input id="first_name" type="text" />');
       return [$('input', $('#jasmine-fixtures')), $('label', $('#jasmine-fixtures'))];
     };
     set_fixtures_for_non_empty_input_and_label = function() {
       setFixtures('<label for="first_name">First Name</label><input id="first_name" type="text" value="Tian" />');
       return [$('input', $('#jasmine-fixtures')), $('label', $('#jasmine-fixtures'))];
+    };
+    set_fixtures_for_rendering = function() {
+      setFixtures('<div class="in_field"><label for="email">Email</label><input id="email" type="text" /></div>');
+      return [$('div.in_field', $('#jasmine-fixtures')), $('input', $('#jasmine-fixtures')), $('label', $('#jasmine-fixtures'))];
     };
     return describe('InField', function() {
       describe('::present', function() {
@@ -41,14 +45,14 @@
         });
       });
       describe('::find_and_validate_label', function() {
-        it('must return not true if the label element associated with the input element is not found', function() {
+        it('must return not true if the label element bound to the input element is not found', function() {
           var $input, $label, _ref;
-          _ref = set_fixtures_for_not_linking_input_and_label(), $input = _ref[0], $label = _ref[1];
+          _ref = set_fixtures_for_not_associating_input_and_label(), $input = _ref[0], $label = _ref[1];
           return expect($.InField.find_and_validate_label($input, $('<table></table>'))).not.toBeTruthy();
         });
         it('must return the label jQuery object if the label element is found outside wrapping the input element', function() {
           var $input, $label, $result, _ref;
-          _ref = set_fixtures_for_linking_input_and_parent_label(), $input = _ref[0], $label = _ref[1];
+          _ref = set_fixtures_for_associating_input_and_parent_label(), $input = _ref[0], $label = _ref[1];
           $result = $.InField.find_and_validate_label($input, $('<table></table>'));
           expect($result[0]).toEqual($label[0]);
           expect($result instanceof jQuery).toBeTruthy();
@@ -56,7 +60,7 @@
         });
         return it('must return the label jQuery object if the label element is found for the input element', function() {
           var $input, $label, $result, _ref;
-          _ref = set_fixtures_for_linking_input_and_non_parent_label(), $input = _ref[0], $label = _ref[1];
+          _ref = set_fixtures_for_associating_input_and_non_parent_label(), $input = _ref[0], $label = _ref[1];
           $result = $.InField.find_and_validate_label($input, $('<table></table>'));
           expect($result[0]).toEqual($label[0]);
           expect($result instanceof jQuery).toBeTruthy();
@@ -66,20 +70,20 @@
       describe('::find_label_for', function() {
         it('must return undefined when there is no label associated with the input element', function() {
           var $input, $label, _ref;
-          _ref = set_fixtures_for_not_linking_input_and_label(), $input = _ref[0], $label = _ref[1];
+          _ref = set_fixtures_for_not_associating_input_and_label(), $input = _ref[0], $label = _ref[1];
           return expect($.InField.find_label_for($input)).toBeUndefined();
         });
-        it('must return the label jQuery object when there is one in the parents of the input element', function() {
+        it('must return the label jQuery object when there is one in the parent nodes of the input element', function() {
           var $input, $label, $result, _ref;
-          _ref = set_fixtures_for_linking_input_and_parent_label(), $input = _ref[0], $label = _ref[1];
+          _ref = set_fixtures_for_associating_input_and_parent_label(), $input = _ref[0], $label = _ref[1];
           $result = $.InField.find_label_for($input);
           expect($result[0]).toEqual($label[0]);
           expect($result instanceof jQuery).toBeTruthy();
           return expect($result).toBe('label');
         });
-        return it('must return the label jQuery object when there is one associated with the input element', function() {
+        return it('must return the label jQuery object when there is one bound to the input element', function() {
           var $input, $label, $result, _ref;
-          _ref = set_fixtures_for_linking_input_and_non_parent_label(), $input = _ref[0], $label = _ref[1];
+          _ref = set_fixtures_for_associating_input_and_non_parent_label(), $input = _ref[0], $label = _ref[1];
           $result = $.InField.find_label_for($input);
           expect($result[0]).toEqual($label[0]);
           expect($result instanceof jQuery).toBeTruthy();
@@ -109,7 +113,7 @@
       describe('::wrap', function() {
         it('must wrap the label and input element in a div when the input is inside the label', function() {
           var $input, $label, _ref;
-          _ref = set_fixtures_for_linking_input_and_parent_label(), $input = _ref[0], $label = _ref[1];
+          _ref = set_fixtures_for_associating_input_and_parent_label(), $input = _ref[0], $label = _ref[1];
           $.InField.wrap($input, $label);
           expect($input.parent()).toBe("div." + $.in_field.klass);
           expect($input.parent().find('label:first')[0]).toEqual($label[0]);
@@ -117,7 +121,7 @@
         });
         return it('must wrap the label and input element in a div when the input is outside the label', function() {
           var $input, $label, _ref;
-          _ref = set_fixtures_for_linking_input_and_non_parent_label(), $input = _ref[0], $label = _ref[1];
+          _ref = set_fixtures_for_associating_input_and_non_parent_label(), $input = _ref[0], $label = _ref[1];
           $.InField.wrap($input, $label);
           expect($input.parent()).toBe("div." + $.in_field.klass);
           expect($input.parent().find('label:first')[0]).toEqual($label[0]);
@@ -150,12 +154,11 @@
           return expect($.InField.has_value(e)).toBeTruthy();
         });
         return it('must return not true if input has no value and user is not typing', function() {
-          var $input, e;
+          var e;
           e = {
             keyCode: 31,
             target: '<input type="text" />'
           };
-          $input = $('<input type="text" />');
           expect($.InField.has_value(e)).not.toBeTruthy();
           e = {
             target: '<input type="text" />'
@@ -163,9 +166,78 @@
           return expect($.InField.has_value(e)).not.toBeTruthy();
         });
       });
-      return describe('::render', function() {
-        return it('must add focus to the target element', function() {
-          return expect(1).toEqual(0);
+      describe('::render', function() {
+        return $.each(['normal', 'focus', 'blur'], function(index, klass) {
+          return it('must add #{ klass } to the target element', function() {
+            var $div, $input;
+            $div = $('<div><input type="text" /></div>');
+            $input = $('input', $div);
+            $.InField.render(klass, $input);
+            return expect($div).toHaveClass(klass);
+          });
+        });
+      });
+      describe('::handle_keyup', function() {
+        it('must add focus to the target element when has no value', function() {
+          var $div, $input, $label, e, _ref;
+          _ref = set_fixtures_for_rendering(), $div = _ref[0], $input = _ref[1], $label = _ref[2];
+          e = {
+            target: $input
+          };
+          $.InField.handle_keyup(e);
+          return expect($div).toHaveClass('focus');
+        });
+        return it('must add blur to the target element when has value', function() {
+          var $div, $input, $label, e, _ref;
+          _ref = set_fixtures_for_rendering(), $div = _ref[0], $input = _ref[1], $label = _ref[2];
+          e = {
+            keyCode: 32,
+            target: $input
+          };
+          $.InField.handle_keyup(e);
+          return expect($div).toHaveClass('blur');
+        });
+      });
+      describe('::handle_focus', function() {
+        it('must add focus to the target element when has no value', function() {
+          var $div, $input, $label, e, _ref;
+          _ref = set_fixtures_for_rendering(), $div = _ref[0], $input = _ref[1], $label = _ref[2];
+          e = {
+            target: $input
+          };
+          $.InField.handle_focus(e);
+          return expect($div).toHaveClass('focus');
+        });
+        return it('must not add focus to the target element when has value', function() {
+          var $div, $input, $label, e, _ref;
+          _ref = set_fixtures_for_rendering(), $div = _ref[0], $input = _ref[1], $label = _ref[2];
+          e = {
+            keyCode: 32,
+            target: $input
+          };
+          $.InField.handle_focus(e);
+          return expect($div).not.toHaveClass('focus');
+        });
+      });
+      return describe('::handle_blur', function() {
+        it('must add normal to the target element when has no value', function() {
+          var $div, $input, $label, e, _ref;
+          _ref = set_fixtures_for_rendering(), $div = _ref[0], $input = _ref[1], $label = _ref[2];
+          e = {
+            target: $input
+          };
+          $.InField.handle_blur(e);
+          return expect($div).toHaveClass('normal');
+        });
+        return it('must add normal to the target element when has no value', function() {
+          var $div, $input, $label, e, _ref;
+          _ref = set_fixtures_for_rendering(), $div = _ref[0], $input = _ref[1], $label = _ref[2];
+          e = {
+            keyCode: 32,
+            target: $input
+          };
+          $.InField.handle_blur(e);
+          return expect($div).not.toHaveClass('normal');
         });
       });
     });

@@ -2,10 +2,10 @@
  * jQuery in-field label v0.9
  * @summary display the label inlined with input box
  * @source_code https://github.com/chentianwen/jquery_in_field_label
- * 
+ *
  * @copyright 2011, Tianwen Chen
  * @website https://github.tian.im
- * 
+ *
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
 ###
@@ -47,12 +47,11 @@ jQuery ($) ->
 
     # @private
     @validate_input: ($element) ->
-      throw new Error('Element not supported.') unless $element.is($.in_field.support_types)
+      $element.is($.in_field.support_types)
 
     @find_and_validate_label: ($input, $label) ->
       $label = @find_label_for $input unless @present($label) && $label.is('label')
       return $label if @present($label)
-      throw new Error('Label not found.')
 
     @find_label_for: ($input) ->
       $label = $input.parents('label:first')
@@ -83,7 +82,7 @@ jQuery ($) ->
         when 'blur'   then $input.parent().addClass('blur').removeClass('normal focus')
         when 'focus'  then $input.parent().addClass('focus').removeClass('normal blur')
         when 'normal' then $input.parent().addClass('normal').removeClass('focus blur')
-      
+
     @handle_keyup: (event) ->
       unless @has_value(event)
         @render 'focus', $(event.target)

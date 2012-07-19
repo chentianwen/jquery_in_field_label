@@ -1,20 +1,24 @@
 jQuery ($) ->
   # fixtures
-  set_fixtures_for_not_linking_input_and_label = ->
+  set_fixtures_for_not_associating_input_and_label = ->
     setFixtures '<label>Last Name</label><input type="text" name="first_name" />'
     [ $('input', $('#jasmine-fixtures')), $('label', $('#jasmine-fixtures')) ]
 
-  set_fixtures_for_linking_input_and_parent_label = ->
+  set_fixtures_for_associating_input_and_parent_label = ->
     setFixtures '<label>First Name <input type="text" name="first_name" /></label>'
     [ $('input', $('#jasmine-fixtures')), $('label', $('#jasmine-fixtures')) ]
 
-  set_fixtures_for_linking_input_and_non_parent_label = set_fixtures_for_empty_input_and_label = ->
+  set_fixtures_for_associating_input_and_non_parent_label = set_fixtures_for_empty_input_and_label = ->
     setFixtures '<label for="first_name">First Name</label><input id="first_name" type="text" />'
     [ $('input', $('#jasmine-fixtures')), $('label', $('#jasmine-fixtures')) ]
 
   set_fixtures_for_non_empty_input_and_label = ->
     setFixtures '<label for="first_name">First Name</label><input id="first_name" type="text" value="Tian" />'
     [ $('input', $('#jasmine-fixtures')), $('label', $('#jasmine-fixtures')) ]
+
+  set_fixtures_for_rendering = ->
+    setFixtures '<div class="in_field"><label for="email">Email</label><input id="email" type="text" /></div>'
+    [ $('div.in_field', $('#jasmine-fixtures')), $('input', $('#jasmine-fixtures')), $('label', $('#jasmine-fixtures')) ]
 
   # test cases
   describe 'InField', ->
@@ -38,19 +42,19 @@ jQuery ($) ->
         expect($.InField.validate_input($('<input type="text" />'))).toBeTruthy()
 
     describe '::find_and_validate_label', ->
-      it 'must return not true if the label element associated with the input element is not found', ->
-        [ $input, $label ] = set_fixtures_for_not_linking_input_and_label()
+      it 'must return not true if the label element bound to the input element is not found', ->
+        [ $input, $label ] = set_fixtures_for_not_associating_input_and_label()
         expect($.InField.find_and_validate_label($input, $('<table></table>'))).not.toBeTruthy()
 
       it 'must return the label jQuery object if the label element is found outside wrapping the input element', ->
-        [ $input, $label ] = set_fixtures_for_linking_input_and_parent_label()
+        [ $input, $label ] = set_fixtures_for_associating_input_and_parent_label()
         $result = $.InField.find_and_validate_label($input, $('<table></table>'))
         expect($result[0]).toEqual($label[0])
         expect($result instanceof jQuery).toBeTruthy()
         expect($result).toBe('label')
 
       it 'must return the label jQuery object if the label element is found for the input element', ->
-        [ $input, $label ] = set_fixtures_for_linking_input_and_non_parent_label()
+        [ $input, $label ] = set_fixtures_for_associating_input_and_non_parent_label()
         $result = $.InField.find_and_validate_label($input, $('<table></table>'))
         expect($result[0]).toEqual($label[0])
         expect($result instanceof jQuery).toBeTruthy()
@@ -58,23 +62,23 @@ jQuery ($) ->
 
     describe '::find_label_for', ->
       it 'must return undefined when there is no label associated with the input element', ->
-        [ $input, $label ] = set_fixtures_for_not_linking_input_and_label()
+        [ $input, $label ] = set_fixtures_for_not_associating_input_and_label()
         expect($.InField.find_label_for($input)).toBeUndefined()
 
-      it 'must return the label jQuery object when there is one in the parents of the input element', ->
-        [ $input, $label ] = set_fixtures_for_linking_input_and_parent_label()
+      it 'must return the label jQuery object when there is one in the parent nodes of the input element', ->
+        [ $input, $label ] = set_fixtures_for_associating_input_and_parent_label()
         $result = $.InField.find_label_for($input)
         expect($result[0]).toEqual($label[0])
         expect($result instanceof jQuery).toBeTruthy()
         expect($result).toBe('label')
-        
-      it 'must return the label jQuery object when there is one associated with the input element', ->
-        [ $input, $label ] = set_fixtures_for_linking_input_and_non_parent_label()
+
+      it 'must return the label jQuery object when there is one bound to the input element', ->
+        [ $input, $label ] = set_fixtures_for_associating_input_and_non_parent_label()
         $result = $.InField.find_label_for($input)
         expect($result[0]).toEqual($label[0])
         expect($result instanceof jQuery).toBeTruthy()
         expect($result).toBe('label')
-        
+
     describe '::link', ->
       it 'must generate the id for the input element and the label element', ->
         $input = $ '<input type="text" />'
@@ -94,14 +98,14 @@ jQuery ($) ->
 
     describe '::wrap', ->
       it 'must wrap the label and input element in a div when the input is inside the label', ->
-        [ $input, $label ] = set_fixtures_for_linking_input_and_parent_label()
+        [ $input, $label ] = set_fixtures_for_associating_input_and_parent_label()
         $.InField.wrap($input, $label)
         expect($input.parent()).toBe("div.#{ $.in_field.klass }")
         expect($input.parent().find('label:first')[0]).toEqual($label[0])
         expect($input.prev()).toBe('label')
 
       it 'must wrap the label and input element in a div when the input is outside the label', ->
-        [ $input, $label ] = set_fixtures_for_linking_input_and_non_parent_label()
+        [ $input, $label ] = set_fixtures_for_associating_input_and_non_parent_label()
         $.InField.wrap($input, $label)
         expect($input.parent()).toBe("div.#{ $.in_field.klass }")
         expect($input.parent().find('label:first')[0]).toEqual($label[0])
@@ -124,11 +128,55 @@ jQuery ($) ->
 
       it 'must return not true if input has no value and user is not typing', ->
         e = { keyCode: 31, target: '<input type="text" />' }
-        $input = $ '<input type="text" />'
         expect($.InField.has_value(e)).not.toBeTruthy()
         e = { target: '<input type="text" />' }
         expect($.InField.has_value(e)).not.toBeTruthy()
 
     describe '::render', ->
-      it 'must add focus to the target element', ->
-        expect(1).toEqual 0
+      $.each [ 'normal', 'focus', 'blur' ], (index, klass) ->
+        it 'must add #{ klass } to the target element', ->
+          $div = $ '<div><input type="text" /></div>'
+          $input = $ 'input', $div
+          $.InField.render klass, $input
+          expect($div).toHaveClass(klass)
+
+    describe '::handle_keyup', ->
+      it 'must add focus to the target element when has no value', ->
+        [ $div, $input, $label ] = set_fixtures_for_rendering()
+        e = { target: $input }
+        $.InField.handle_keyup e
+        expect($div).toHaveClass('focus')
+
+      it 'must add blur to the target element when has value', ->
+        [ $div, $input, $label ] = set_fixtures_for_rendering()
+        e = { keyCode: 32, target: $input }
+        $.InField.handle_keyup e
+        expect($div).toHaveClass('blur')
+
+    describe '::handle_focus', ->
+      it 'must add focus to the target element when has no value', ->
+        [ $div, $input, $label ] = set_fixtures_for_rendering()
+        e = { target: $input }
+        $.InField.handle_focus e
+        expect($div).toHaveClass('focus')
+
+      it 'must not add focus to the target element when has value', ->
+        [ $div, $input, $label ] = set_fixtures_for_rendering()
+        e = { keyCode: 32, target: $input }
+        $.InField.handle_focus e
+        expect($div).not.toHaveClass('focus')
+
+    describe '::handle_blur', ->
+      it 'must add normal to the target element when has no value', ->
+        [ $div, $input, $label ] = set_fixtures_for_rendering()
+        e = { target: $input }
+        $.InField.handle_blur e
+        expect($div).toHaveClass('normal')
+
+      it 'must add normal to the target element when has no value', ->
+        [ $div, $input, $label ] = set_fixtures_for_rendering()
+        e = { keyCode: 32, target: $input }
+        $.InField.handle_blur e
+        expect($div).not.toHaveClass('normal')
+
+
