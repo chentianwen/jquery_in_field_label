@@ -98,6 +98,9 @@
                 %li
                   %em HTML4:
                   input[type=text], input[type=password], textarea
+            %h3 What happens
+            %p It will wrap the label and input elements into a div element as follow:
+            - codes.call "<div class='in_field'>\n  <label for='\#{ input_id }'>Label Text</label>\n  <input type='\#{ type }' id='\#{ input_id }'>\n</div>"
           #example.section
             %h2 Example
             %h3 Code Example - No javascript needed
