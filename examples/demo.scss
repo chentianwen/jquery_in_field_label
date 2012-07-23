@@ -22,7 +22,7 @@ iframe {
     background: url('failing.png') no-repeat top left;
   }
   &.passed {
-    background-image: url('passing.png');
+    background-image: url('passing.png') no-repeat top left;
   }
 }
 
