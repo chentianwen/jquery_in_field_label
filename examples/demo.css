@@ -23,14 +23,17 @@ iframe {
 /* line 19, demo.scss */
 #jasmine-build-status {
   padding-bottom: 13px;
+}
+/* line 21, demo.scss */
+#jasmine-build-status.failed {
   background: url("failing.png") no-repeat top left;
 }
-/* line 22, demo.scss */
+/* line 24, demo.scss */
 #jasmine-build-status.passed {
   background-image: url("passing.png");
 }
 
-/* line 27, demo.scss */
+/* line 29, demo.scss */
 .footer {
   margin-top: 45px;
   padding: 35px 0 36px;
