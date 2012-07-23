@@ -30,7 +30,7 @@ iframe {
 }
 /* line 24, demo.scss */
 #jasmine-build-status.passed {
-  background-image: url("passing.png") no-repeat top left;
+  background: url("passing.png") no-repeat top left;
 }
 
 /* line 29, demo.scss */
